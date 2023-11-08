@@ -16,4 +16,14 @@ public class WebRepository : IWebRepository
         IWebElement button = _driver.FindElement(By.CssSelector(".cms-btn-app-link.blue-quick.quick"));
         action.Click(button).Build().Perform();
     }
+
+    public string GrabText(string keywords)
+    {
+        throw new NotImplementedException();
+    }
+
+    public string FieldInput(string textInput)
+    {
+        throw new NotImplementedException();
+    }
 }
