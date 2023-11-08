@@ -13,7 +13,7 @@ public class WebRepository : IWebRepository
     {
         _driver.Navigate().GoToUrl(url);
         Actions action = new Actions(_driver);
-        IWebElement button = _driver.FindElement(By.CssSelector(".cms-btn-app-link.blue-quick.quick"));
+        IWebElement button = _driver.FindElement(By.LinkText("Sök jobb i Platsbanken"));
         action.Click(button).Build().Perform();
     }
 
