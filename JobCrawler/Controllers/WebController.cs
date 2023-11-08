@@ -14,7 +14,7 @@ public class WebController : ControllerBase
         _webRepository = webRepository;
     }
 
-    [HttpGet("StartCrawling")]
+    [HttpGet("StartCrawlingArbetsförmedlingen")]
     public Task<ActionResult> CrawlTest()
     {
         _webRepository.NavigateTo("https://arbetsformedlingen.se/");
