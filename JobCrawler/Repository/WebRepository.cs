@@ -2,6 +2,7 @@ using JobCrawler.Repository.Contract;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Interactions;
+using OpenQA.Selenium.Support.UI;
 
 namespace JobCrawler.Repository;
 
@@ -22,8 +23,13 @@ public class WebRepository : IWebRepository
         throw new NotImplementedException();
     }
 
-    public string FieldInput(string textInput)
-    {
-        throw new NotImplementedException();
+    public void FieldInput(string textInput)
+    {        Actions action = new Actions(_driver);
+
+        Task.Delay(TimeSpan.FromSeconds(3)).Wait();
+        IWebElement input = _driver.FindElement(By.Id("search_input"));
+        IWebElement search = _driver.FindElement(By.CssSelector("button[type='button'][class='search-button btn btn-lg btn-app-link--custom inverse-focus'][aria-label='Sök']"));
+        input.SendKeys(textInput);
+        action.Click(search).Build().Perform();
     }
 }
