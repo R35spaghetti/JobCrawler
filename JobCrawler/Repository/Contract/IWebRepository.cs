@@ -6,5 +6,5 @@ public interface IWebRepository
 
     string GrabText(string keywords);
 
-    string FieldInput(string textInput);
+    void FieldInput(string textInput);
 }
