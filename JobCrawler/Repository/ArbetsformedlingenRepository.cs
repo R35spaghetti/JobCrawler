@@ -6,7 +6,7 @@ using OpenQA.Selenium.Support.UI;
 
 namespace JobCrawler.Repository;
 
-public class WebRepository : IWebRepository
+public class ArbetsformedlingenRepository : IWebRepository
 {
     private readonly IWebDriver _driver = new FirefoxDriver();
 
