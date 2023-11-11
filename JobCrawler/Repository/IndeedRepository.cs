@@ -14,7 +14,7 @@ public class IndeedRepository : IWebRepository
         throw new NotImplementedException();
     }
 
-    public void FieldInput(string textInput)
+    public void FieldInput(params string[] textInput)
     {
         throw new NotImplementedException();
     }

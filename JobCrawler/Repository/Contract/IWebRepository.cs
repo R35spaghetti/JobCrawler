@@ -6,7 +6,7 @@ public interface IWebRepository
 
     string GrabText(string keywords);
 
-    void FieldInput(string textInput);
+     void FieldInput(params string[] textInput);
     
     void IterateJobAds();
 }

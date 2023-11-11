@@ -22,14 +22,13 @@ public class ArbetsformedlingenRepository : IWebRepository
     {
         throw new NotImplementedException();
     }
-
-    public void FieldInput(string textInput)
+    public void FieldInput(params string[] textInput)
     {        Actions action = new Actions(_driver);
 
         Task.Delay(TimeSpan.FromSeconds(3)).Wait();
         IWebElement input = _driver.FindElement(By.Id("search_input"));
         IWebElement search = _driver.FindElement(By.CssSelector("button[type='button'][class='search-button btn btn-lg btn-app-link--custom inverse-focus'][aria-label='Sök']"));
-        input.SendKeys(textInput);
+        foreach (var item in textInput) input.SendKeys(item);
         action.Click(search).Build().Perform();
     }
 
