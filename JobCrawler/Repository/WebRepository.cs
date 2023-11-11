@@ -32,4 +32,9 @@ public class WebRepository : IWebRepository
         input.SendKeys(textInput);
         action.Click(search).Build().Perform();
     }
+
+    public void IterateJobAds()
+    {
+        throw new NotImplementedException();
+    }
 }
