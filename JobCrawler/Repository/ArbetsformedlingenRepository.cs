@@ -2,7 +2,6 @@ using JobCrawler.Repository.Contract;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Interactions;
-using OpenQA.Selenium.Support.UI;
 
 namespace JobCrawler.Repository;
 
