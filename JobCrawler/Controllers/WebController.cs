@@ -15,13 +15,14 @@ public class WebController : ControllerBase
     }
     //Testing
     [HttpGet("StartCrawlingArbetsförmedlingen")]
-    public Task<ActionResult> CrawlTest(string input)
+    public Task<ActionResult> StartCrawlAF(string input)
     {
         _webRepository.NavigateTo("https://arbetsformedlingen.se/");
         
         _webRepository.FieldInput(input);
         return Task.FromResult<ActionResult>(Ok());
-    }
+    }    
+  
 
    
 }
