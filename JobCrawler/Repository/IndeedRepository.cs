@@ -1,12 +1,18 @@
 using JobCrawler.Repository.Contract;
+using OpenQA.Selenium;
+using OpenQA.Selenium.Firefox;
+using OpenQA.Selenium.Interactions;
 
 namespace JobCrawler.Repository;
 
 public class IndeedRepository : IWebRepository
 {
+    private readonly IWebDriver _driver = new FirefoxDriver();
+
+
     public void NavigateTo(string url)
     {
-        throw new NotImplementedException();
+        _driver.Navigate().GoToUrl(url);
     }
 
     public string GrabText(string keywords)
@@ -16,7 +22,14 @@ public class IndeedRepository : IWebRepository
 
     public void FieldInput(params string[] textInput)
     {
-        throw new NotImplementedException();
+        Actions action = new Actions(_driver);
+        IWebElement what = _driver.FindElement(By.Id("text-input-what"));
+        IWebElement where = _driver.FindElement(By.Id("text-input-where"));
+        IWebElement search =
+            _driver.FindElement(By.CssSelector("button.yosegi-InlineWhatWhere-primaryButton[type='submit']"));
+        what.SendKeys(textInput[0]);
+        where.SendKeys(textInput[1]);
+        action.Click(search).Build().Perform();
     }
 
     public void IterateJobAds()
