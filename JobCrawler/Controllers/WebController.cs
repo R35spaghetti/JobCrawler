@@ -1,4 +1,3 @@
-using JobCrawler.Repository.Contract;
 using Microsoft.AspNetCore.Mvc;
 
 namespace JobCrawler.Controllers;
@@ -7,22 +6,30 @@ namespace JobCrawler.Controllers;
 [Route("[controller]")]
 public class WebController : ControllerBase
 {
-    private readonly IWebRepository _webRepository;
+    private readonly WebRepositoryResolver _webRepositoryResolver;
 
-    public WebController(IWebRepository webRepository)
+    public WebController(WebRepositoryResolver webRepositoryResolver)
     {
-        _webRepository = webRepository;
+        _webRepositoryResolver = webRepositoryResolver;
     }
-    //Testing
+
     [HttpGet("StartCrawlingArbetsförmedlingen")]
     public Task<ActionResult> StartCrawlAF(string input)
     {
-        _webRepository.NavigateTo("https://arbetsformedlingen.se/");
-        
-        _webRepository.FieldInput(input);
-        return Task.FromResult<ActionResult>(Ok());
-    }    
-  
+        var webRepositoryResolver = _webRepositoryResolver("A");
+        webRepositoryResolver.NavigateTo("https://arbetsformedlingen.se/");
 
-   
+        webRepositoryResolver.FieldInput(input);
+        return Task.FromResult<ActionResult>(Ok());
+    }
+
+    [HttpGet("StartCrawlingIndeed")]
+    public Task<ActionResult> StartCrawlIndeed(string what, string where)
+    {
+        var webRepository = _webRepositoryResolver("B");
+        webRepository.NavigateTo("https://se.indeed.com/");
+        string[] inputs = new[] { what, where };
+        webRepository.FieldInput(inputs);
+        return Task.FromResult<ActionResult>(Ok());
+    }
 }
