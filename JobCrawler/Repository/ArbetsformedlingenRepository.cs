@@ -8,6 +8,7 @@ namespace JobCrawler.Repository;
 public class ArbetsformedlingenRepository : IWebRepository
 {
     private readonly IWebDriver _driver = new FirefoxDriver();
+  
 
     public void NavigateTo(string url)
     {
@@ -19,7 +20,19 @@ public class ArbetsformedlingenRepository : IWebRepository
 
     public string GrabText(string keywords)
     {
-        throw new NotImplementedException();
+        Task.Delay(TimeSpan.FromSeconds(10)).Wait();
+        IWebElement showMoreJobAds = _driver.FindElement(By.ClassName("ads-per-page"));
+        new Actions(_driver)
+            .Click(showMoreJobAds)
+            .Perform();
+
+        return "";
+        //TODO sort of
+        //klicka på denna class="ads-per-page"
+        //ta in alla annonser
+        //gå igenom varje annons
+        //vid varje annons ta ut ett värde med nyckelorden
+        //resultatet blir vald annons med nyckelorden och ungefär en kortfattad del av annonsen
     }
     public void FieldInput(params string[] textInput)
     {        Actions action = new Actions(_driver);

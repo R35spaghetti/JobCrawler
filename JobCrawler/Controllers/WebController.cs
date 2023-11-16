@@ -20,6 +20,9 @@ public class WebController : ControllerBase
         webRepositoryResolver.NavigateTo("https://arbetsformedlingen.se/");
 
         webRepositoryResolver.FieldInput(input);
+
+        webRepositoryResolver.GrabText("test");
+        
         return Task.FromResult<ActionResult>(Ok());
     }
 
