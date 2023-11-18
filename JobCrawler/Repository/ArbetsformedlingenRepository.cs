@@ -1,3 +1,4 @@
+using System.Collections.ObjectModel;
 using JobCrawler.Repository.Contract;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
@@ -22,6 +23,7 @@ public class ArbetsformedlingenRepository : IWebRepository
     {
         Task.Delay(TimeSpan.FromSeconds(10)).Wait();
         IWebElement showMoreJobAds = _driver.FindElement(By.ClassName("ads-per-page"));
+        ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].scrollIntoView();", showMoreJobAds);
         new Actions(_driver)
             .Click(showMoreJobAds)
             .Perform();
