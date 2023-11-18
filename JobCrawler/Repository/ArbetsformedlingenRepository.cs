@@ -21,7 +21,7 @@ public class ArbetsformedlingenRepository : IWebRepository
 
     public string GrabText(string keywords)
     {
-        Task.Delay(TimeSpan.FromSeconds(10)).Wait();
+        Task.Delay(TimeSpan.FromSeconds(5)).Wait();
         IWebElement showMoreJobAds = _driver.FindElement(By.ClassName("ads-per-page"));
         ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].scrollIntoView();", showMoreJobAds);
         new Actions(_driver)
