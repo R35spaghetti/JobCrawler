@@ -28,6 +28,19 @@ public class ArbetsformedlingenRepository : IWebRepository
             .Click(showMoreJobAds)
             .Perform();
 
+        
+        Task.Delay(TimeSpan.FromSeconds(3)).Wait();
+        var jobAdContainer = _driver.FindElement(By.ClassName("result-container"));
+        ReadOnlyCollection<IWebElement> jobAds = jobAdContainer.FindElements(By.ClassName("ng-star-inserted"));
+        foreach (var jobAd in jobAds)
+        {
+            IWebElement clickJobAd = _driver.FindElement(By.CssSelector("div.card-container h3 a"));
+            ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].scrollIntoView();", jobAd);
+            new Actions(_driver)
+                .Click(clickJobAd)
+                .Perform();
+        }
+        
         return "";
         //TODO sort of
         //klicka på denna class="ads-per-page"
