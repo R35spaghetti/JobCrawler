@@ -21,11 +21,13 @@ public class ArbetsformedlingenRepository : IWebRepository
 
     public string GrabText(string keywords)
     {
+        List<string> jobs = new List<string>();
+        
         Task.Delay(TimeSpan.FromSeconds(5)).Wait();
         ShowMoreJobAds();
 
         Task.Delay(TimeSpan.FromSeconds(3)).Wait();
-        keywords = IterateThroughJobAds(keywords);
+        jobs = IterateThroughJobAds(keywords);
         return "";
     }
 
@@ -47,8 +49,10 @@ public class ArbetsformedlingenRepository : IWebRepository
         throw new NotImplementedException();
     }
 
-    private string IterateThroughJobAds(string keywords)
+    public List<string> IterateThroughJobAds(string keywords)
     {
+        List<string> jobs = new List<string>();        
+        
         var jobAdContainer = _driver.FindElement(By.ClassName("result-container"));
         ReadOnlyCollection<IWebElement> jobAds = jobAdContainer.FindElements(By.ClassName("ng-star-inserted"));
         foreach (var jobAd in jobAds)
@@ -60,7 +64,7 @@ public class ArbetsformedlingenRepository : IWebRepository
                 .Perform();
         }
 
-        return keywords;
+        return jobs;
     }
 
     private void ShowMoreJobAds()

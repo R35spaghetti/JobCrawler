@@ -32,7 +32,7 @@ public class IndeedRepository : IWebRepository
         action.Click(search).Build().Perform();
     }
 
-    public void IterateJobAds()
+    public List<string> IterateThroughJobAds(string keywords)
     {
         throw new NotImplementedException();
     }
