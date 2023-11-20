@@ -43,11 +43,7 @@ public class ArbetsformedlingenRepository : IWebRepository
         foreach (var item in textInput) input.SendKeys(item);
         action.Click(search).Build().Perform();
     }
-
-    public void IterateJobAds()
-    {
-        throw new NotImplementedException();
-    }
+    
 
     public List<string> IterateThroughJobAds(string keywords)
     {
@@ -62,11 +58,20 @@ public class ArbetsformedlingenRepository : IWebRepository
             new Actions(_driver)
                 .Click(clickJobAd)
                 .Perform();
+         jobs =  AcquireInterestingJobs(keywords);
         }
 
         return jobs;
     }
 
+    public List<string> AcquireInterestingJobs(string keywords)
+    {
+        List<string> jobs = new List<string>();
+
+
+        return jobs;
+    }
+    
     private void ShowMoreJobAds()
     {
         IWebElement showMoreJobAds = _driver.FindElement(By.ClassName("ads-per-page"));

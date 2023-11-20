@@ -36,4 +36,9 @@ public class IndeedRepository : IWebRepository
     {
         throw new NotImplementedException();
     }
+
+    public List<string> AcquireInterestingJobs(string keywords)
+    {
+        throw new NotImplementedException();
+    }
 }
