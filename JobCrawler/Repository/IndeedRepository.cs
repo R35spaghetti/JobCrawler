@@ -15,7 +15,7 @@ public class IndeedRepository : IWebRepository
         _driver.Navigate().GoToUrl(url);
     }
 
-    public string GrabText(string keywords)
+    public List<string> JobsOfInterest(string keywords)
     {
         throw new NotImplementedException();
     }

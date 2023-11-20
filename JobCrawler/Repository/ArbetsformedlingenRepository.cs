@@ -19,7 +19,7 @@ public class ArbetsformedlingenRepository : IWebRepository
         action.Click(button).Build().Perform();
     }
 
-    public string GrabText(string keywords)
+    public List<string> JobsOfInterest(string keywords)
     {
         List<string> jobs = new List<string>();
         
@@ -28,7 +28,7 @@ public class ArbetsformedlingenRepository : IWebRepository
 
         Task.Delay(TimeSpan.FromSeconds(3)).Wait();
         jobs = IterateThroughJobAds(keywords);
-        return "";
+        return jobs;
     }
 
 

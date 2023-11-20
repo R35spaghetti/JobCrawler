@@ -4,7 +4,7 @@ public interface IWebRepository
 {
     void NavigateTo(string url);
 
-    string GrabText(string keywords);
+    List<string> JobsOfInterest(string keywords);
 
      void FieldInput(params string[] textInput);
     

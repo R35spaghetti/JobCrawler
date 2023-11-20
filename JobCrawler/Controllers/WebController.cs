@@ -21,7 +21,7 @@ public class WebController : ControllerBase
 
         webRepositoryResolver.FieldInput(input);
 
-        webRepositoryResolver.GrabText("test");
+        webRepositoryResolver.JobsOfInterest("test");
         
         return Task.FromResult<ActionResult>(Ok());
     }
