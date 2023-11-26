@@ -70,15 +70,24 @@ public class ArbetsformedlingenRepository : IWebRepository
         IList<IWebElement> jobAd = _driver.FindElements(By.CssSelector("section.col-md-12"));
         
         List<string> jobAdInfo = jobAd.Select(element => element.Text).ToList();
+        
+       string jobs = FilterJobAd(jobAdInfo.First(), keywords);
+ 
 
-  
-
-        List<string> jobs = new List<string>();
-
-
-        return jobs;
+        return new List<string> { jobs };
     }
-    
+
+    private string FilterJobAd(string jobAdInfo, string keywords)
+    {
+        if (jobAdInfo.Contains(keywords))
+        {
+            return jobAdInfo;
+        }
+
+        return string.Empty;
+    }
+
+
     private void ShowMoreJobAds()
     {
         IWebElement showMoreJobAds = _driver.FindElement(By.ClassName("ads-per-page"));
