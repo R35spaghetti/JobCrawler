@@ -66,6 +66,7 @@ public class ArbetsformedlingenRepository : IWebRepository
 
     public List<string> AcquireInterestingJobs(string keywords)
     {
+        Task.Delay(TimeSpan.FromSeconds(5)).Wait();
         IList<IWebElement> jobAd = _driver.FindElements(By.CssSelector("section.col-md-12"));
         
         List<string> jobAdInfo = jobAd.Select(element => element.Text).ToList();
