@@ -52,13 +52,13 @@ public class ArbetsformedlingenRepository : IWebRepository
         var jobAdContainer = _driver.FindElement(By.ClassName("result-container"));
         ReadOnlyCollection<IWebElement> jobAds = jobAdContainer.FindElements(By.ClassName("ng-star-inserted"));
         foreach (var jobAd in jobAds)
-        {
+        { 
             IWebElement clickJobAd = _driver.FindElement(By.CssSelector("div.card-container h3 a"));
             ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].scrollIntoView();", jobAd);
             new Actions(_driver)
                 .Click(clickJobAd)
                 .Perform();
-         jobs =  AcquireInterestingJobs(keywords);
+         jobs.AddRange(AcquireInterestingJobs(keywords));
         }
 
         return jobs;
