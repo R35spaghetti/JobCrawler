@@ -1,4 +1,3 @@
-using System.Collections.ObjectModel;
 using JobCrawler.Repository.Contract;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
@@ -47,19 +46,17 @@ public class ArbetsformedlingenRepository : IWebRepository
 
     public List<string> IterateThroughJobAds(string keywords)
     {
-        List<string> jobs = new List<string>();        
+        List<string> jobs = new List<string>();
         
-        var jobAdContainer = _driver.FindElement(By.ClassName("result-container"));
-        ReadOnlyCollection<IWebElement> jobAds = jobAdContainer.FindElements(By.ClassName("ng-star-inserted"));
-        foreach (var jobAd in jobAds)
-        { 
-            IWebElement clickJobAd = _driver.FindElement(By.CssSelector("div.card-container h3 a"));
-            ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].scrollIntoView();", jobAd);
-            new Actions(_driver)
-                .Click(clickJobAd)
-                .Perform();
-         jobs.AddRange(AcquireInterestingJobs(keywords));
+        for (int i = 1; i <= 100; i++)
+        {
+            By locator = By.CssSelector($"pb-feature-search-result-card.ng-star-inserted:nth-child({i}) > div:nth-child(1) > div:nth-child(1) > h3:nth-child(1) > a:nth-child(1)");
+            var clickJobAd = new StaleElementWrapper(_driver, locator);
+            clickJobAd.Click();
+            jobs.AddRange(AcquireInterestingJobs(keywords));
+            _driver.Navigate().Back();
         }
+
 
         return jobs;
     }
@@ -81,13 +78,10 @@ public class ArbetsformedlingenRepository : IWebRepository
 
         public void Click()
         {
-            
-          
             try
             {
-    
                 ((IJavaScriptExecutor)driver).ExecuteScript("arguments[0].scrollIntoView(true);", element);
-               element.Click();
+                element.Click();
             }
             catch (StaleElementReferenceException)
             {
@@ -102,11 +96,10 @@ public class ArbetsformedlingenRepository : IWebRepository
     {
         Task.Delay(TimeSpan.FromSeconds(5)).Wait();
         IList<IWebElement> jobAd = _driver.FindElements(By.CssSelector("section.col-md-12"));
-        
         List<string> jobAdInfo = jobAd.Select(element => element.Text).ToList();
         
-       string jobs = FilterJobAd(jobAdInfo.First(), keywords);
- 
+        string jobs = FilterJobAd(jobAdInfo.First(), keywords);
+
 
         return new List<string> { jobs };
     }
