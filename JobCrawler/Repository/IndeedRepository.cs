@@ -15,7 +15,7 @@ public class IndeedRepository : IWebRepository
         _driver.Navigate().GoToUrl(url);
     }
 
-    public List<string> JobsOfInterest(string keywords)
+    public List<string> JobsOfInterest(string keywords, string path)
     {
         throw new NotImplementedException();
     }
@@ -32,12 +32,12 @@ public class IndeedRepository : IWebRepository
         action.Click(search).Build().Perform();
     }
 
-    public List<string> IterateThroughJobAds(string keywords)
+    public List<string> IterateThroughJobAds(string keywords, string path)
     {
         throw new NotImplementedException();
     }
 
-    public List<string> AcquireInterestingJobs(string keywords)
+    public List<string> AcquireInterestingJobs(string keywords, string path)
     {
         throw new NotImplementedException();
     }

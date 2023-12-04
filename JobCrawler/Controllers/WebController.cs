@@ -14,14 +14,14 @@ public class WebController : ControllerBase
     }
 
     [HttpGet("StartCrawlingArbetsförmedlingen")]
-    public Task<ActionResult> StartCrawlAF(string input, string keywords)
+    public Task<ActionResult> StartCrawlAF(string input, string keywords, string path)
     {
         var webRepositoryResolver = _webRepositoryResolver("A");
         webRepositoryResolver.NavigateTo("https://arbetsformedlingen.se/");
 
         webRepositoryResolver.FieldInput(input);
 
-        webRepositoryResolver.JobsOfInterest(keywords);
+        webRepositoryResolver.JobsOfInterest(keywords, path);
         
         return Task.FromResult<ActionResult>(Ok());
     }

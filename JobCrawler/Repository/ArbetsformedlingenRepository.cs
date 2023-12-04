@@ -20,7 +20,7 @@ public class ArbetsformedlingenRepository : IWebRepository
         action.Click(button).Build().Perform();
     }
 
-    public List<string> JobsOfInterest(string keywords)
+    public List<string> JobsOfInterest(string keywords, string path)
     {
         List<string> jobs = new List<string>();
         
@@ -28,7 +28,7 @@ public class ArbetsformedlingenRepository : IWebRepository
         ShowMoreJobAds();
 
         Task.Delay(TimeSpan.FromSeconds(3)).Wait();
-        jobs = IterateThroughJobAds(keywords);
+        jobs = IterateThroughJobAds(keywords, path);
         return jobs;
     }
 
@@ -46,7 +46,7 @@ public class ArbetsformedlingenRepository : IWebRepository
     }
     
 
-    public List<string> IterateThroughJobAds(string keywords)
+    public List<string> IterateThroughJobAds(string keywords,string path)
     {
         List<string> jobs = new List<string>();
         
@@ -55,7 +55,7 @@ public class ArbetsformedlingenRepository : IWebRepository
             By locator = By.CssSelector($"pb-feature-search-result-card.ng-star-inserted:nth-child({i}) > div:nth-child(1) > div:nth-child(1) > h3:nth-child(1) > a:nth-child(1)");
             var clickJobAd = new StaleElementWrapper(_driver, locator);
             clickJobAd.Click();
-            jobs.AddRange(AcquireInterestingJobs(keywords));
+            jobs.AddRange(AcquireInterestingJobs(keywords, path));
 
             if (i == 100)
             {
@@ -67,20 +67,20 @@ public class ArbetsformedlingenRepository : IWebRepository
         return jobs;
     }
 
-    public List<string> AcquireInterestingJobs(string keywords)
+    public List<string> AcquireInterestingJobs(string keywords, string path)
     {
         Task.Delay(TimeSpan.FromSeconds(5)).Wait();
         IList<IWebElement> jobAd = _driver.FindElements(By.CssSelector("section.col-md-12"));
         List<string> jobAdInfo = jobAd.Select(element => element.GetAttribute("innerHTML")).ToList();
 
         
-        string jobs = FilterJobAd(jobAdInfo.First(), keywords);
+        string jobs = FilterJobAd(jobAdInfo.First(), keywords, path);
 
 
         return new List<string> { jobs };
     }
 
-    private string FilterJobAd(string jobAdInfo, string keywords)
+    private string FilterJobAd(string jobAdInfo, string keywords, string path)
     {
         if (jobAdInfo.ToUpper().Contains(keywords.ToUpper()))
         {
