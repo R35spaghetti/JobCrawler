@@ -80,7 +80,7 @@ public class ArbetsformedlingenRepository : IWebRepository
 
     private string FilterJobAd(string jobAdInfo, string keywords)
     {
-        if (jobAdInfo.Contains(keywords))
+        if (jobAdInfo.ToUpper().Contains(keywords.ToUpper()))
         {
             return jobAdInfo;
         }
