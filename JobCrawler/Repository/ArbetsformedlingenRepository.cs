@@ -1,3 +1,4 @@
+using JobCrawler.Features;
 using JobCrawler.Repository.Contract;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
@@ -60,37 +61,6 @@ public class ArbetsformedlingenRepository : IWebRepository
 
         return jobs;
     }
-
-
-
-    private class StaleElementWrapper
-    {
-        private By locator;
-        private IWebElement element;
-        private IWebDriver driver;
-
-        public StaleElementWrapper(IWebDriver driver, By locator)
-        {
-            this.driver = driver;
-            this.locator = locator;
-            this.element = driver.FindElement(locator);
-        }
-
-        public void Click()
-        {
-            try
-            {
-                ((IJavaScriptExecutor)driver).ExecuteScript("arguments[0].scrollIntoView(true);", element);
-                element.Click();
-            }
-            catch (StaleElementReferenceException)
-            {
-                element = driver.FindElement(locator);
-                element.Click();
-            }
-        }
-    }
-
 
     public List<string> AcquireInterestingJobs(string keywords)
     {
