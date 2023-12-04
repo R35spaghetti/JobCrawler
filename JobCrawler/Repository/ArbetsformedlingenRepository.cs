@@ -81,6 +81,11 @@ public class ArbetsformedlingenRepository : IWebRepository
     {
         if (jobAdInfo.ToUpper().Contains(keywords.ToUpper()))
         {
+            string encoded = WebUtility.HtmlEncode(jobAdInfo);
+            var title = _driver.FindElement(By.CssSelector("#pb-company-name"));
+            string textValue = title.Text;
+            path += $"{textValue}.html";
+            File.WriteAllText(path,jobAdInfo);
             return jobAdInfo;
         }
 
