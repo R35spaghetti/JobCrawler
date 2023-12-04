@@ -55,7 +55,11 @@ public class ArbetsformedlingenRepository : IWebRepository
             var clickJobAd = new StaleElementWrapper(_driver, locator);
             clickJobAd.Click();
             jobs.AddRange(AcquireInterestingJobs(keywords));
-            _driver.Navigate().Back();
+
+            if (i == 100)
+            {
+                _driver.Navigate().Back();
+            }
         }
 
 
