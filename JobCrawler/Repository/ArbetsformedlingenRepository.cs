@@ -23,7 +23,7 @@ public class ArbetsformedlingenRepository : IWebRepository
     public List<string> JobsOfInterest(string keywords, string path)
     {
         List<string> jobs = new List<string>();
-        
+
         Task.Delay(TimeSpan.FromSeconds(5)).Wait();
         ShowMoreJobAds();
 
@@ -44,24 +44,33 @@ public class ArbetsformedlingenRepository : IWebRepository
         foreach (var item in textInput) input.SendKeys(item);
         action.Click(search).Build().Perform();
     }
-    
 
-    public List<string> IterateThroughJobAds(string keywords,string path)
+
+    public List<string> IterateThroughJobAds(string keywords, string path)
     {
         List<string> jobs = new List<string>();
-        
         for (int i = 1; i <= 100; i++)
         {
-            By locator = By.CssSelector($"pb-feature-search-result-card.ng-star-inserted:nth-child({i}) > div:nth-child(1) > div:nth-child(1) > h3:nth-child(1) > a:nth-child(1)");
+            By locator =
+                By.CssSelector(
+                    $"pb-feature-search-result-card.ng-star-inserted:nth-child({i}) > div:nth-child(1) > div:nth-child(1) > h3:nth-child(1) > a:nth-child(1)");
             var clickJobAd = new StaleElementWrapper(_driver, locator);
             clickJobAd.Click();
             jobs.AddRange(AcquireInterestingJobs(keywords, path));
             _driver.Navigate().Back();
-            
         }
+
+        NextOnehundred();
 
 
         return jobs;
+    }
+
+    private void NextOnehundred()
+    {
+        By locatorNext = By.CssSelector(".digi-button--icon-secondary > span:nth-child(1) > span:nth-child(1)");
+        var clickNext = new StaleElementWrapper(_driver, locatorNext);
+        clickNext.Click();
     }
 
     public List<string> AcquireInterestingJobs(string keywords, string path)
@@ -70,7 +79,7 @@ public class ArbetsformedlingenRepository : IWebRepository
         IList<IWebElement> jobAd = _driver.FindElements(By.CssSelector("section.col-md-12"));
         List<string> jobAdInfo = jobAd.Select(element => element.GetAttribute("innerHTML")).ToList();
 
-        
+
         string jobs = FilterJobAd(jobAdInfo.First(), keywords, path);
 
 
@@ -85,7 +94,7 @@ public class ArbetsformedlingenRepository : IWebRepository
             var title = _driver.FindElement(By.CssSelector("#pb-company-name"));
             string textValue = title.Text;
             path += $"{textValue}.html";
-            File.WriteAllText(path,jobAdInfo);
+            File.WriteAllText(path, jobAdInfo);
             return jobAdInfo;
         }
 
