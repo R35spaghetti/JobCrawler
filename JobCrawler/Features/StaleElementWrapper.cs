@@ -27,5 +27,9 @@ public class StaleElementWrapper
             element = driver.FindElement(locator);
             element.Click();
         }
+        catch (ElementNotInteractableException)
+        {
+            
+        }
     }
 }
