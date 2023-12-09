@@ -24,7 +24,7 @@ public class ArbetsformedlingenRepository : IWebRepository
     {
         List<string> jobs = new List<string>();
 
-        Task.Delay(TimeSpan.FromSeconds(5)).Wait();
+        Task.Delay(TimeSpan.FromSeconds(3)).Wait();
         ShowMoreJobAds();
         Task.Delay(TimeSpan.FromSeconds(3)).Wait();
         int pages = GetJobAdPages();
