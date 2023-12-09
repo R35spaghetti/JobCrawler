@@ -2,13 +2,13 @@ using OpenQA.Selenium;
 
 namespace JobCrawler.Features;
 
-public class StaleElementWrapper
+public class ClickElementWrapper
 {
     private By locator;
     private IWebElement element;
     private IWebDriver driver;
 
-    public StaleElementWrapper(IWebDriver driver, By locator)
+    public ClickElementWrapper(IWebDriver driver, By locator)
     {
         this.driver = driver;
         this.locator = locator;

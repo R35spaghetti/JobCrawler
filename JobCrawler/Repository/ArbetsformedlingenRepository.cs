@@ -63,7 +63,7 @@ public class ArbetsformedlingenRepository : IWebRepository
                 By locator =
                     By.CssSelector(
                         $"pb-feature-search-result-card.ng-star-inserted:nth-child({i}) > div:nth-child(1) > div:nth-child(1) > h3:nth-child(1) > a:nth-child(1)");
-                var clickJobAd = new StaleElementWrapper(_driver, locator);
+                var clickJobAd = new ClickElementWrapper(_driver, locator);
                 clickJobAd.Click();
                 jobs.AddRange(AcquireInterestingJobs(keywords, path));
                 _driver.Navigate().Back();
@@ -80,7 +80,7 @@ public class ArbetsformedlingenRepository : IWebRepository
     private void NextOnehundred()
     {
         By locatorNext = By.CssSelector(".digi-button--icon-secondary > span:nth-child(1) > span:nth-child(1)");
-        var clickNext = new StaleElementWrapper(_driver, locatorNext);
+        var clickNext = new ClickElementWrapper(_driver, locatorNext);
         clickNext.Click();
     }
 
