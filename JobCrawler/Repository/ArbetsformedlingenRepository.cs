@@ -26,10 +26,17 @@ public class ArbetsformedlingenRepository : IWebRepository
 
         Task.Delay(TimeSpan.FromSeconds(5)).Wait();
         ShowMoreJobAds();
-
         Task.Delay(TimeSpan.FromSeconds(3)).Wait();
-        jobs = IterateThroughJobAds(keywords, path);
+        int pages = GetJobAdPages();
+        Task.Delay(TimeSpan.FromSeconds(3)).Wait();
+        jobs = IterateThroughJobAds(keywords, path, pages);
         return jobs;
+    }
+
+    private int GetJobAdPages()
+    {
+        IWebElement number = _driver.FindElement(By.CssSelector(".digi-navigation-pagination__page-button--last"));
+        return Convert.ToInt32(number.Text);
     }
 
 
@@ -46,22 +53,26 @@ public class ArbetsformedlingenRepository : IWebRepository
     }
 
 
-    public List<string> IterateThroughJobAds(string keywords, string path)
+    public List<string> IterateThroughJobAds(string keywords, string path, int pages)
     {
         List<string> jobs = new List<string>();
-        for (int i = 1; i <= 100; i++)
+        for (int j = 1; j <= pages; j++)
         {
-            By locator =
-                By.CssSelector(
-                    $"pb-feature-search-result-card.ng-star-inserted:nth-child({i}) > div:nth-child(1) > div:nth-child(1) > h3:nth-child(1) > a:nth-child(1)");
-            var clickJobAd = new StaleElementWrapper(_driver, locator);
-            clickJobAd.Click();
-            jobs.AddRange(AcquireInterestingJobs(keywords, path));
-            _driver.Navigate().Back();
+            for (int i = 1; i <= 100; i++)
+            {
+                By locator =
+                    By.CssSelector(
+                        $"pb-feature-search-result-card.ng-star-inserted:nth-child({i}) > div:nth-child(1) > div:nth-child(1) > h3:nth-child(1) > a:nth-child(1)");
+                var clickJobAd = new StaleElementWrapper(_driver, locator);
+                clickJobAd.Click();
+                jobs.AddRange(AcquireInterestingJobs(keywords, path));
+                _driver.Navigate().Back();
+            }
+
+            NextOnehundred();
+            Task.Delay(TimeSpan.FromSeconds(2)).Wait();
+
         }
-
-        NextOnehundred();
-
 
         return jobs;
     }

@@ -8,7 +8,7 @@ public interface IWebRepository
 
      void FieldInput(params string[] textInput);
     
-     List<string> IterateThroughJobAds(string keywords, string path);
+     List<string> IterateThroughJobAds(string keywords, string path, int pages);
 
      List<string> AcquireInterestingJobs(string keywords, string path);
 
