@@ -100,11 +100,10 @@ public class ArbetsformedlingenRepository : IWebRepository
         return new List<string> { jobs };
     }
 
-    private string FilterJobAd(string jobAdInfo, string keywords, string path)
+    private string FilterJobAd(string jobAdInfo, string keywords, string path, string negativeKeywords)
     {
         if (jobAdInfo.ToUpper().Contains(keywords.ToUpper()))
         {
-            string encoded = WebUtility.HtmlEncode(jobAdInfo);
             var title = _driver.FindElement(By.CssSelector("#pb-company-name"));
             string textValue = title.Text;
             path += $"{textValue}.html";
