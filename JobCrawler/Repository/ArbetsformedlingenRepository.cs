@@ -20,7 +20,7 @@ public class ArbetsformedlingenRepository : IWebRepository
         action.Click(button).Build().Perform();
     }
 
-    public List<string> JobsOfInterest(string keywords, string path)
+    public List<string> JobsOfInterest(string keywords, string path, string negativeKeywords)
     {
         List<string> jobs = new List<string>();
 
@@ -29,7 +29,7 @@ public class ArbetsformedlingenRepository : IWebRepository
         Task.Delay(TimeSpan.FromSeconds(3)).Wait();
         int pages = GetJobAdPages();
         Task.Delay(TimeSpan.FromSeconds(3)).Wait();
-        jobs = IterateThroughJobAds(keywords, path, pages);
+        jobs = IterateThroughJobAds(keywords, path, pages, negativeKeywords);
         return jobs;
     }
 
@@ -53,7 +53,7 @@ public class ArbetsformedlingenRepository : IWebRepository
     }
 
 
-    public List<string> IterateThroughJobAds(string keywords, string path, int pages)
+    public List<string> IterateThroughJobAds(string keywords, string path, int pages, string negativeKeywords)
     {
         List<string> jobs = new List<string>();
         for (int j = 1; j <= pages; j++)
@@ -65,7 +65,12 @@ public class ArbetsformedlingenRepository : IWebRepository
                         $"pb-feature-search-result-card.ng-star-inserted:nth-child({i}) > div:nth-child(1) > div:nth-child(1) > h3:nth-child(1) > a:nth-child(1)");
                 var clickJobAd = new ClickElementWrapper(_driver, locator);
                 clickJobAd.Click();
-                jobs.AddRange(AcquireInterestingJobs(keywords, path));
+                List<string> result = AcquireInterestingJobs(keywords, path, negativeKeywords);
+                if (result.First() != "")
+                {
+                    jobs.AddRange(result);
+
+                }
                 _driver.Navigate().Back();
             }
 
@@ -84,16 +89,14 @@ public class ArbetsformedlingenRepository : IWebRepository
         clickNext.Click();
     }
 
-    public List<string> AcquireInterestingJobs(string keywords, string path)
+    public List<string> AcquireInterestingJobs(string keywords, string path, string negativeKeywords)
     {
         Task.Delay(TimeSpan.FromSeconds(5)).Wait();
         IList<IWebElement> jobAd = _driver.FindElements(By.CssSelector("section.col-md-12"));
         List<string> jobAdInfo = jobAd.Select(element => element.GetAttribute("innerHTML")).ToList();
 
 
-        string jobs = FilterJobAd(jobAdInfo.First(), keywords, path);
-
-
+        string jobs = FilterJobAd(jobAdInfo.First(), keywords, path, negativeKeywords);
         return new List<string> { jobs };
     }
 

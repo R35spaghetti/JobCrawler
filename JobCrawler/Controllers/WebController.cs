@@ -14,20 +14,20 @@ public class WebController : ControllerBase
     }
 
     [HttpGet("StartCrawlingArbetsförmedlingen")]
-    public Task<ActionResult> StartCrawlAF(string input, string keywords, string path)
+    public Task<ActionResult> StartCrawlAF(string input, string keywords, string path, string negativeKeywords)
     {
         var webRepositoryResolver = _webRepositoryResolver("A");
         webRepositoryResolver.NavigateTo("https://arbetsformedlingen.se/");
 
         webRepositoryResolver.FieldInput(input);
 
-        webRepositoryResolver.JobsOfInterest(keywords, path);
+        webRepositoryResolver.JobsOfInterest(keywords, path,negativeKeywords);
         
         return Task.FromResult<ActionResult>(Ok());
     }
 
     [HttpGet("StartCrawlingIndeed")]
-    public Task<ActionResult> StartCrawlIndeed(string what, string where, string keywords)
+    public Task<ActionResult> StartCrawlIndeed(string what, string where, string keywords, string negativeKeywords)
     {
         var webRepository = _webRepositoryResolver("B");
         webRepository.NavigateTo("https://se.indeed.com/");
