@@ -4,6 +4,7 @@ using JobCrawler.Repository.Contract;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Interactions;
+using System.Text.RegularExpressions;
 
 namespace JobCrawler.Repository;
 
@@ -102,7 +103,17 @@ public class ArbetsformedlingenRepository : IWebRepository
 
     private string FilterJobAd(string jobAdInfo, string keywords, string path, string negativeKeywords)
     {
-        if (jobAdInfo.ToUpper().Contains(keywords.ToUpper()))
+        /*
+         * positive lookbehind with a positive lookahead,
+         * matches the specified keywords,
+         * even when it is preceded or followed by a whitespace (\s) character or a punctuation character (\p{{P}})
+         */
+        if (Regex.IsMatch(jobAdInfo.ToUpper(), $@"(?<=^|[\s\p{{P}}]){negativeKeywords.ToUpper()}(?=[\s\p{{P}}]|$)"))
+        {
+            return string.Empty;
+
+        }
+        else if (Regex.IsMatch(jobAdInfo.ToUpper(), $@"(?<=^|[\s\p{{P}}]){keywords.ToUpper()}(?=[\s\p{{P}}]|$)"))
         {
             var title = _driver.FindElement(By.CssSelector("#pb-company-name"));
             string textValue = title.Text;
