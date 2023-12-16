@@ -1,4 +1,3 @@
-using System.Net;
 using JobCrawler.Features;
 using JobCrawler.Repository.Contract;
 using OpenQA.Selenium;
