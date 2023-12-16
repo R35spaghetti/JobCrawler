@@ -116,8 +116,8 @@ public class ArbetsformedlingenRepository : IWebRepository
         {
             var title = _driver.FindElement(By.CssSelector("#pb-company-name"));
             jobAdInfo += $"<a href='{_driver.Url}'>Go to job ad</a>";
-            string textValue = title.Text;
-            path += $"{textValue}.html";
+            string documentName = title.Text;
+            path += $"{documentName}.html";
             File.WriteAllText(path, jobAdInfo);
             return jobAdInfo;
         }
