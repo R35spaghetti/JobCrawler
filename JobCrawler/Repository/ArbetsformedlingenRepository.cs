@@ -116,6 +116,7 @@ public class ArbetsformedlingenRepository : IWebRepository
         else if (Regex.IsMatch(jobAdInfo.ToUpper(), $@"(?<=^|[\s\p{{P}}]){keywords.ToUpper()}(?=[\s\p{{P}}]|$)"))
         {
             var title = _driver.FindElement(By.CssSelector("#pb-company-name"));
+            jobAdInfo += $"<a href='{_driver.Url}'>Go to job ad</a>";
             string textValue = title.Text;
             path += $"{textValue}.html";
             File.WriteAllText(path, jobAdInfo);
