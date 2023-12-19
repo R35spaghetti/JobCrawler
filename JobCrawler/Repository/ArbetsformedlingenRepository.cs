@@ -35,10 +35,25 @@ public class ArbetsformedlingenRepository : IWebRepository
 
     private int GetJobAdPages()
     {
-        IWebElement number = _driver.FindElement(By.CssSelector(".digi-navigation-pagination__page-button--last"));
-        return Convert.ToInt32(number.Text);
-    }
+        try
+        {
+            IWebElement number = _driver.FindElement(By.CssSelector(".digi-navigation-pagination__page-button--last"));
+            return Convert.ToInt32(number.Text);
+        }
+        catch (NoSuchElementException)
+        {
+            IWebElement number = _driver.FindElement(By.CssSelector(".digi-typography"));
+            int amountOfAds = GetThirdNumber(number.Text);
+            return amountOfAds;
+        }
 
+    }
+    private int GetThirdNumber(string str)
+    { 
+        //Match one or more digits, find all the numbers in the string
+        MatchCollection matches = Regex.Matches(str, @"\d+");
+        return int.Parse(matches[2].Value);
+    }
 
     public void FieldInput(params string[] textInput)
     {
