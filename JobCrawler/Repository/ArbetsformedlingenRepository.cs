@@ -129,15 +129,51 @@ public class ArbetsformedlingenRepository : IWebRepository
         }
         else if (Regex.IsMatch(jobAdInfo.ToUpper(), $@"(?<=^|[\s\p{{P}}]){keywords.ToUpper()}(?=[\s\p{{P}}]|$)"))
         {
-            var title = _driver.FindElement(By.CssSelector("#pb-company-name"));
-            jobAdInfo += $"<a href='{_driver.Url}'>Go to job ad</a>";
-            string documentName = title.Text;
-            path += $"{documentName}.html";
-            File.WriteAllText(path, jobAdInfo);
+            FolderStructureForAds(jobAdInfo, path);
             return jobAdInfo;
         }
 
         return string.Empty;
+    }
+
+   public void FolderStructureForAds(string jobAdInfo, string path)
+    {
+        var title = _driver.FindElement(By.CssSelector("#pb-company-name"));
+        jobAdInfo += $"<a href='{_driver.Url}'>Go to job ad</a>";
+        string documentName = title.Text;
+        string headFolderName = GetHeadFolderName();
+        string subFolderName = GetSubFolderName();
+        string folderPath = $"{path}/{headFolderName}/{subFolderName}";
+        folderPath += $"/{documentName}.html";
+        if (!System.IO.Directory.Exists(folderPath))
+        {
+            System.IO.Directory.CreateDirectory(folderPath);
+            File.WriteAllText(folderPath, jobAdInfo);
+
+        }
+
+    }
+
+    private string GetSubFolderName()
+    {
+        IWebElement subFolderName = _driver.FindElement(By.CssSelector("#pb-job-location"));
+        return subFolderName.Text;
+    }
+    private string GetHeadFolderName()
+    {
+        IWebElement folderTitle = _driver.FindElement(By.CssSelector(".extra-info-section > h2:nth-child(2)")); 
+        string dateTitle = GetProperTitle(folderTitle.Text);
+        return dateTitle;
+    }
+
+    private string GetProperTitle(string folderTitle)
+    {
+        string[] months = { "januari", "februari", "mars", "april", "maj", "juni", "juli", "augusti", "september", "oktober", "november", "december"};
+        string monthsPattern = "(?:" + string.Join("|", months) + ")";
+        string datePattern = $@"\s*\d{{1,2}}\s*{monthsPattern}\s*\d{{4}}";
+        Match date = Regex.Match(folderTitle, datePattern);
+        
+         return (date.Value ?? string.Empty);
     }
 
 

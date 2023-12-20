@@ -41,4 +41,9 @@ public class IndeedRepository : IWebRepository
     {
         throw new NotImplementedException();
     }
+
+    public void FolderStructureForAds(string jobAdInfo, string path)
+    {
+        throw new NotImplementedException();
+    }
 }
