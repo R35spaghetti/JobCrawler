@@ -40,7 +40,7 @@ public class ArbetsformedlingenRepository : IWebRepository
             IWebElement number = _driver.FindElement(By.CssSelector(".digi-navigation-pagination__page-button--last"));
             return Convert.ToInt32(number.Text);
         }
-        catch (NoSuchElementException)
+        catch (NoSuchElementException) //if less than 5 pages
         {
             IWebElement number = _driver.FindElement(By.CssSelector(".digi-typography"));
             int amountOfAds = GetThirdNumber(number.Text);
