@@ -89,19 +89,18 @@ public class ArbetsformedlingenRepository : IWebRepository
                 _driver.Navigate().Back();
             }
 
-            NextOnehundred();
+            NextOneHundred();
             Task.Delay(TimeSpan.FromSeconds(2)).Wait();
 
         }
 
         return jobs;
     }
-
-    private void NextOnehundred()
+    private void NextOneHundred()
     {
-        By locatorNext = By.CssSelector(".digi-button--icon-secondary > span:nth-child(1) > span:nth-child(1)");
-        var clickNext = new ClickElementWrapper(_driver, locatorNext);
-        clickNext.Click();
+            By locatorNext = By.CssSelector(".digi-button--icon-secondary > span:nth-child(1) > span:nth-child(1)");
+            var clickNext = new ClickElementWrapper(_driver, locatorNext);
+            clickNext.Click();
     }
 
     public List<string> AcquireInterestingJobs(string keywords, string path, string negativeKeywords)
