@@ -151,12 +151,24 @@ public class ArbetsformedlingenRepository : IWebRepository
     private string GetSubFolderName()
     {
         IWebElement subFolderName = _driver.FindElement(By.CssSelector("#pb-job-location"));
+
+        if (subFolderName.Text == "")
+        {
+            return "Unknown";
+        }
+        
         return subFolderName.Text;
     }
     private string GetHeadFolderName()
     {
         IWebElement folderTitle = _driver.FindElement(By.CssSelector(".extra-info-section > h2:nth-child(2)")); 
         string dateTitle = GetProperTitle(folderTitle.Text);
+
+        if (dateTitle == "")
+        {
+            return "Unknown";
+        }
+        
         return dateTitle;
     }
 
