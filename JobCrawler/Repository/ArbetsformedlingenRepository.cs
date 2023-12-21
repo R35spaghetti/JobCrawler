@@ -135,7 +135,7 @@ public class ArbetsformedlingenRepository : IWebRepository
         return string.Empty;
     }
 
-   public void FolderStructureForAds(string jobAdInfo, string path)
+    public void FolderStructureForAds(string jobAdInfo, string path)
     {
         var title = _driver.FindElement(By.CssSelector("#pb-company-name"));
         jobAdInfo += $"<a href='{_driver.Url}'>Go to job ad</a>";
@@ -143,14 +143,9 @@ public class ArbetsformedlingenRepository : IWebRepository
         string headFolderName = GetHeadFolderName();
         string subFolderName = GetSubFolderName();
         string folderPath = $"{path}/{headFolderName}/{subFolderName}";
-        folderPath += $"/{documentName}.html";
-        if (!System.IO.Directory.Exists(folderPath))
-        {
-            System.IO.Directory.CreateDirectory(folderPath);
-            File.WriteAllText(folderPath, jobAdInfo);
 
-        }
-
+        System.IO.Directory.CreateDirectory(folderPath);
+        File.WriteAllText(folderPath + $"/{documentName}.html", jobAdInfo);
     }
 
     private string GetSubFolderName()
