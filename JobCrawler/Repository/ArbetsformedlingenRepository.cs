@@ -33,6 +33,15 @@ public class ArbetsformedlingenRepository : IWebRepository
         return jobs;
     }
 
+    private void ShowMoreJobAds()
+    {
+        IWebElement showMoreJobAds = _driver.FindElement(By.ClassName("ads-per-page"));
+        ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].scrollIntoView();", showMoreJobAds);
+        new Actions(_driver)
+            .Click(showMoreJobAds)
+            .Perform();
+    }
+
     private int GetJobAdPages()
     {
         try
@@ -184,15 +193,5 @@ public class ArbetsformedlingenRepository : IWebRepository
         Match date = Regex.Match(folderTitle, datePattern);
 
         return (date.Value ?? string.Empty);
-    }
-
-
-    private void ShowMoreJobAds()
-    {
-        IWebElement showMoreJobAds = _driver.FindElement(By.ClassName("ads-per-page"));
-        ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].scrollIntoView();", showMoreJobAds);
-        new Actions(_driver)
-            .Click(showMoreJobAds)
-            .Perform();
     }
 }
