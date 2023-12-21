@@ -22,14 +22,14 @@ public class ArbetsformedlingenRepository : IWebRepository
 
     public List<string> JobsOfInterest(string keywords, string path, string negativeKeywords)
     {
-        List<string> jobs = new List<string>();
+        
 
         Task.Delay(TimeSpan.FromSeconds(3)).Wait();
         ShowMoreJobAds();
         Task.Delay(TimeSpan.FromSeconds(3)).Wait();
         int pages = GetJobAdPages();
         Task.Delay(TimeSpan.FromSeconds(3)).Wait();
-        jobs = IterateThroughJobAds(keywords, path, pages, negativeKeywords);
+        List<string> jobs = IterateThroughJobAds(keywords, path, pages, negativeKeywords);
         return jobs;
     }
 
