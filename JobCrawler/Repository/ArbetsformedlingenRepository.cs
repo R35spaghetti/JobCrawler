@@ -46,10 +46,10 @@ public class ArbetsformedlingenRepository : IWebRepository
             int amountOfAds = GetThirdNumber(number.Text);
             return amountOfAds;
         }
-
     }
+
     private int GetThirdNumber(string str)
-    { 
+    {
         //Match one or more digits, find all the numbers in the string
         MatchCollection matches = Regex.Matches(str, @"\d+");
         return int.Parse(matches[2].Value);
@@ -84,23 +84,23 @@ public class ArbetsformedlingenRepository : IWebRepository
                 if (result.First() != "")
                 {
                     jobs.AddRange(result);
-
                 }
+
                 _driver.Navigate().Back();
             }
 
             NextOneHundred();
             Task.Delay(TimeSpan.FromSeconds(2)).Wait();
-
         }
 
         return jobs;
     }
+
     private void NextOneHundred()
     {
-            By locatorNext = By.CssSelector(".digi-button--icon-secondary > span:nth-child(1) > span:nth-child(1)");
-            var clickNext = new ClickElementWrapper(_driver, locatorNext);
-            clickNext.Click();
+        By locatorNext = By.CssSelector(".digi-button--icon-secondary > span:nth-child(1) > span:nth-child(1)");
+        var clickNext = new ClickElementWrapper(_driver, locatorNext);
+        clickNext.Click();
     }
 
     public List<string> AcquireInterestingJobs(string keywords, string path, string negativeKeywords)
@@ -124,7 +124,6 @@ public class ArbetsformedlingenRepository : IWebRepository
         if (Regex.IsMatch(jobAdInfo.ToUpper(), $@"(?<=^|[\s\p{{P}}]){negativeKeywords.ToUpper()}(?=[\s\p{{P}}]|$)"))
         {
             return string.Empty;
-
         }
         else if (Regex.IsMatch(jobAdInfo.ToUpper(), $@"(?<=^|[\s\p{{P}}]){keywords.ToUpper()}(?=[\s\p{{P}}]|$)"))
         {
@@ -156,30 +155,35 @@ public class ArbetsformedlingenRepository : IWebRepository
         {
             return "Unknown";
         }
-        
+
         return subFolderName.Text;
     }
+
     private string GetHeadFolderName()
     {
-        IWebElement folderTitle = _driver.FindElement(By.CssSelector(".extra-info-section > h2:nth-child(2)")); 
+        IWebElement folderTitle = _driver.FindElement(By.CssSelector(".extra-info-section > h2:nth-child(2)"));
         string dateTitle = GetProperTitle(folderTitle.Text);
 
         if (dateTitle == "")
         {
             return "Unknown";
         }
-        
+
         return dateTitle;
     }
 
     private string GetProperTitle(string folderTitle)
     {
-        string[] months = { "januari", "februari", "mars", "april", "maj", "juni", "juli", "augusti", "september", "oktober", "november", "december"};
+        string[] months =
+        {
+            "januari", "februari", "mars", "april", "maj", "juni", "juli", "augusti", "september", "oktober",
+            "november", "december"
+        };
         string monthsPattern = "(?:" + string.Join("|", months) + ")";
         string datePattern = $@"\s*\d{{1,2}}\s*{monthsPattern}\s*\d{{4}}";
         Match date = Regex.Match(folderTitle, datePattern);
-        
-         return (date.Value ?? string.Empty);
+
+        return (date.Value ?? string.Empty);
     }
 
 
