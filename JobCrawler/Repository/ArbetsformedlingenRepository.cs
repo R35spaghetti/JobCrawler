@@ -152,7 +152,7 @@ public class ArbetsformedlingenRepository : IWebRepository
         string subFolderName = GetSubFolderName();
         string folderPath = $"{path}/{headFolderName}/{subFolderName}";
 
-        System.IO.Directory.CreateDirectory(folderPath);
+        Directory.CreateDirectory(folderPath);
         File.WriteAllText(folderPath + $"/{documentName}.html", jobAdInfo);
     }
 
@@ -192,6 +192,6 @@ public class ArbetsformedlingenRepository : IWebRepository
         string datePattern = $@"\s*\d{{1,2}}\s*{monthsPattern}\s*\d{{4}}";
         Match date = Regex.Match(folderTitle, datePattern);
 
-        return (date.Value ?? string.Empty);
+        return date.Value;
     }
 }
