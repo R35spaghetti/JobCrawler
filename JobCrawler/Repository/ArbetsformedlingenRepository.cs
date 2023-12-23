@@ -159,13 +159,15 @@ public class ArbetsformedlingenRepository : IWebRepository
     private string GetSubFolderName()
     {
         IWebElement subFolderName = _driver.FindElement(By.CssSelector("#pb-job-location"));
-
         if (subFolderName.Text == "")
         {
             return "Unknown";
         }
-
-        return subFolderName.Text;
+        else
+        {
+            var newSubFolderName = subFolderName.Text.Replace("Kommun: ", "").Trim();
+            return newSubFolderName;
+        }
     }
 
     private string GetHeadFolderName()
