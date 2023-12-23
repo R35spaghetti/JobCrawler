@@ -20,7 +20,7 @@ public class ArbetsformedlingenRepository : IWebRepository
         action.Click(button).Build().Perform();
     }
 
-    public List<string> JobsOfInterest(string keywords, string path, string negativeKeywords)
+    public List<string> JobsOfInterest(List<string> keywords, string path, List<string> negativeKeywords)
     {
         
 
@@ -77,7 +77,7 @@ public class ArbetsformedlingenRepository : IWebRepository
     }
 
 
-    public List<string> IterateThroughJobAds(string keywords, string path, int pages, string negativeKeywords)
+    public List<string> IterateThroughJobAds(List<string> keywords, string path, int pages, List<string> negativeKeywords)
     {
         List<string> jobs = new List<string>();
         for (int j = 1; j <= pages; j++)
@@ -112,32 +112,64 @@ public class ArbetsformedlingenRepository : IWebRepository
         clickNext.Click();
     }
 
-    public List<string> AcquireInterestingJobs(string keywords, string path, string negativeKeywords)
+    public List<string> AcquireInterestingJobs(List<string> keywords, string path, List<string> negativeKeywords)
     {
         Task.Delay(TimeSpan.FromSeconds(5)).Wait();
         IList<IWebElement> jobAd = _driver.FindElements(By.CssSelector("section.col-md-12"));
         List<string> jobAdInfo = jobAd.Select(element => element.GetAttribute("innerHTML")).ToList();
-
-
+        
         string jobs = FilterJobAd(jobAdInfo.First(), keywords, path, negativeKeywords);
         return new List<string> { jobs };
     }
 
-    private string FilterJobAd(string jobAdInfo, string keywords, string path, string negativeKeywords)
+    private string FilterJobAd(string jobAdInfo, List<string> keywords, string path, List<string> negativeKeywords)
     {
         /*
          * positive lookbehind with a positive lookahead,
          * matches the specified keywords,
          * even when it is preceded or followed by a whitespace (\s) character or a punctuation character (\p{{P}})
          */
-        if (Regex.IsMatch(jobAdInfo.ToUpper(), $@"(?<=^|[\s\p{{P}}]){negativeKeywords.ToUpper()}(?=[\s\p{{P}}]|$)"))
+        if (keywords.Count == 1 && negativeKeywords.Count == 1)
         {
-            return string.Empty;
+            string escapedStrNeg = Regex.Escape(negativeKeywords.First());
+            string escapedStrPos = Regex.Escape(keywords.First());
+
+            if (Regex.IsMatch(jobAdInfo.ToUpper(), $@"(?<=^|[\s\p{{P}}]){escapedStrNeg.ToUpper()}(?=[\s\p{{P}}]|$)"))
+            {
+                return string.Empty;
+            }
+           else if (Regex.IsMatch(jobAdInfo.ToUpper(), $@"(?<=^|[\s\p{{P}}]){escapedStrPos.ToUpper()}(?=[\s\p{{P}}]|$)"))
+            {
+                FolderStructureForAds(jobAdInfo, path);
+                return jobAdInfo;
+            }
         }
-        else if (Regex.IsMatch(jobAdInfo.ToUpper(), $@"(?<=^|[\s\p{{P}}]){keywords.ToUpper()}(?=[\s\p{{P}}]|$)"))
+        else
         {
-            FolderStructureForAds(jobAdInfo, path);
-            return jobAdInfo;
+            bool desirable = true;
+            Parallel.ForEach(negativeKeywords, strNeg =>
+            {
+                string escapedStr = Regex.Escape(strNeg);
+                if (Regex.IsMatch(jobAdInfo.ToUpper(), $@"(?<=^|[\s\p{{P}}]){escapedStr.ToUpper()}(?=[\s\p{{P}}]|$)"))
+                {
+                    desirable = false;
+                }
+            });
+            Parallel.ForEach(keywords, strPos =>
+            {
+                string escapedStr = Regex.Escape(strPos);
+                if (Regex.IsMatch(jobAdInfo.ToUpper(), $@"(?<=^|[\s\p{{P}}]){escapedStr.ToUpper()}(?=[\s\p{{P}}]|$)"))
+                {
+                    desirable = true;
+                  
+                }
+            });
+
+            if (desirable)
+            {
+                FolderStructureForAds(jobAdInfo, path);
+                return jobAdInfo;
+            }
         }
 
         return string.Empty;

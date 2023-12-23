@@ -14,7 +14,7 @@ public class WebController : ControllerBase
     }
 
     [HttpGet("StartCrawlingArbetsförmedlingen")]
-    public Task<ActionResult> StartCrawlAF(string input, string keywords, string path, string negativeKeywords)
+    public Task<ActionResult> StartCrawlAF(string input,[FromQuery]  List<string> keywords, string path,[FromQuery] List<string> negativeKeywords)
     {
         var webRepositoryResolver = _webRepositoryResolver("A");
         webRepositoryResolver.NavigateTo("https://arbetsformedlingen.se/");
