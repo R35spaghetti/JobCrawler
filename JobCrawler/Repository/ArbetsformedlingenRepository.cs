@@ -22,8 +22,6 @@ public class ArbetsformedlingenRepository : IWebRepository
 
     public List<string> JobsOfInterest(List<string> keywords, string path, List<string> negativeKeywords)
     {
-        
-
         Task.Delay(TimeSpan.FromSeconds(3)).Wait();
         ShowMoreJobAds();
         Task.Delay(TimeSpan.FromSeconds(3)).Wait();
@@ -77,7 +75,8 @@ public class ArbetsformedlingenRepository : IWebRepository
     }
 
 
-    public List<string> IterateThroughJobAds(List<string> keywords, string path, int pages, List<string> negativeKeywords)
+    public List<string> IterateThroughJobAds(List<string> keywords, string path, int pages,
+        List<string> negativeKeywords)
     {
         List<string> jobs = new List<string>();
         for (int j = 1; j <= pages; j++)
@@ -117,7 +116,7 @@ public class ArbetsformedlingenRepository : IWebRepository
         Task.Delay(TimeSpan.FromSeconds(5)).Wait();
         IList<IWebElement> jobAd = _driver.FindElements(By.CssSelector("section.col-md-12"));
         List<string> jobAdInfo = jobAd.Select(element => element.GetAttribute("innerHTML")).ToList();
-        
+
         string jobs = FilterJobAd(jobAdInfo.First(), keywords, path, negativeKeywords);
         return new List<string> { jobs };
     }
@@ -138,7 +137,8 @@ public class ArbetsformedlingenRepository : IWebRepository
             {
                 return string.Empty;
             }
-           else if (Regex.IsMatch(jobAdInfo.ToUpper(), $@"(?<=^|[\s\p{{P}}]){escapedStrPos.ToUpper()}(?=[\s\p{{P}}]|$)"))
+            else if (Regex.IsMatch(jobAdInfo.ToUpper(),
+                         $@"(?<=^|[\s\p{{P}}]){escapedStrPos.ToUpper()}(?=[\s\p{{P}}]|$)"))
             {
                 FolderStructureForAds(jobAdInfo, path);
                 return jobAdInfo;
@@ -161,7 +161,6 @@ public class ArbetsformedlingenRepository : IWebRepository
                 if (Regex.IsMatch(jobAdInfo.ToUpper(), $@"(?<=^|[\s\p{{P}}]){escapedStr.ToUpper()}(?=[\s\p{{P}}]|$)"))
                 {
                     desirable = true;
-                  
                 }
             });
 
