@@ -17,7 +17,10 @@ public class IndeedRepository : IWebRepository
 
     public List<string> JobsOfInterest(List<string> keywords, string path, List<string> negativeKeywords)
     {
-        throw new NotImplementedException();
+        
+        int pages = 0; //placeholder
+        List<string> jobs = IterateThroughJobAds(keywords, path, pages, negativeKeywords);
+        return jobs;
     }
 
     public void FieldInput(params string[] textInput)
