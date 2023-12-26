@@ -27,7 +27,7 @@ public class WebController : ControllerBase
     }
 
     [HttpGet("StartCrawlingIndeed")]
-    public Task<ActionResult> StartCrawlIndeed(string what, string where, string keywords, string negativeKeywords)
+    public Task<ActionResult> StartCrawlIndeed(string what, string where, [FromQuery]  List<string> keywords, [FromQuery] List<string> negativeKeywords)
     {
         var webRepository = _webRepositoryResolver("B");
         webRepository.NavigateTo("https://se.indeed.com/");
