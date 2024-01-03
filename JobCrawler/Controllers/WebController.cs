@@ -33,6 +33,7 @@ public class WebController : ControllerBase
         webRepository.NavigateTo("https://se.indeed.com/");
         string[] inputs = new[] { what, where};
         webRepository.FieldInput(inputs);
+        webRepository.JobsOfInterest(keywords, path,negativeKeywords);
         return Task.FromResult<ActionResult>(Ok());
     }
 }

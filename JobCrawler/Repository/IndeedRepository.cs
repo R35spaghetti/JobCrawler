@@ -17,8 +17,20 @@ public class IndeedRepository : IWebRepository
 
     public List<string> JobsOfInterest(List<string> keywords, string path, List<string> negativeKeywords)
     {
-        
-        int pages = 0; //placeholder
+        Task.Delay(TimeSpan.FromSeconds(3)).Wait();
+        int pages = GetAmountOfJobs();
+
+        int GetAmountOfJobs()
+        {
+            string amount = _driver.FindElement(By.CssSelector(".jobsearch-JobCountAndSortPane-jobCount > span:nth-child(1)")).Text;
+            var replacements = new Dictionary<string, string>{{"jobb", ""},{",",""}};
+            foreach (var strAmount in replacements)
+            {
+                amount = amount.Replace(strAmount.Key, strAmount.Value);
+            }
+            return Convert.ToInt32(amount);
+        }
+
         List<string> jobs = IterateThroughJobAds(keywords, path, pages, negativeKeywords);
         return jobs;
     }
