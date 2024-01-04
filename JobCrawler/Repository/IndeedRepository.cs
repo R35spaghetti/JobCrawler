@@ -17,7 +17,7 @@ public class IndeedRepository : IWebRepository
 
     public List<string> JobsOfInterest(List<string> keywords, string path, List<string> negativeKeywords)
     {
-        Task.Delay(TimeSpan.FromSeconds(3)).Wait();
+        Task.Delay(TimeSpan.FromSeconds(5)).Wait();
         int pages = GetAmountOfJobs();
 
         int GetAmountOfJobs()
@@ -37,6 +37,7 @@ public class IndeedRepository : IWebRepository
 
     public void FieldInput(params string[] textInput)
     {
+        Task.Delay(TimeSpan.FromSeconds(2)).Wait();
         Actions action = new Actions(_driver);
         IWebElement what = _driver.FindElement(By.Id("text-input-what"));
         IWebElement where = _driver.FindElement(By.Id("text-input-where"));
