@@ -1,3 +1,5 @@
+using System.Collections.ObjectModel;
+using JobCrawler.Features;
 using JobCrawler.Repository.Contract;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
