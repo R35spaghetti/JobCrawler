@@ -51,6 +51,7 @@ public class IndeedRepository : IWebRepository
     public List<string> IterateThroughJobAds(List<string> keywords, string path, int pages, List<string> negativeKeywords)
     {
         throw new NotImplementedException();
+        By locatorNext = By.CssSelector(".css-akkh0a");
     }
 
     public List<string> AcquireInterestingJobs(List<string> keywords, string path, List<string> negativeKeywords)
