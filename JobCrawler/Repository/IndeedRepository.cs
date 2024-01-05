@@ -50,8 +50,29 @@ public class IndeedRepository : IWebRepository
 
     public List<string> IterateThroughJobAds(List<string> keywords, string path, int pages, List<string> negativeKeywords)
     {
-        throw new NotImplementedException();
+        List<string> jobs = new List<string>();
+        var jobList = _driver.FindElements(By.CssSelector(".css-zu9cdh"))
+            .SelectMany(x => x.FindElements(By.CssSelector(".css-5lfssm.eu4oa1w0")))
+                .Where(li=>li.Text != ""); //TODO: Get only job ads
+
+        int jobCount = jobList.Count();
+        for(int i = 1; i<= jobCount; i++)
+        {
+            By locator = By.CssSelector($"li.css-5lfssm:nth-child({i})"); //TODO: Error at i
+            var clickJobAd = new ClickElementWrapper(_driver, locator);
+            clickJobAd.Click();
+            //AcquireInterestingJobs
+        }
+        GoToNextJobPage();
+        
+            return jobs;
+    }
+
+    private void GoToNextJobPage()
+    {
         By locatorNext = By.CssSelector(".css-akkh0a");
+        var clickNext = new ClickElementWrapper(_driver, locatorNext);
+        clickNext.Click();
     }
 
     public List<string> AcquireInterestingJobs(List<string> keywords, string path, List<string> negativeKeywords)
