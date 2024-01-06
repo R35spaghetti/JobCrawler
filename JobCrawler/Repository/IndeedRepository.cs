@@ -19,7 +19,7 @@ public class IndeedRepository : IWebRepository
 
     public List<string> JobsOfInterest(List<string> keywords, string path, List<string> negativeKeywords)
     {
-        Task.Delay(TimeSpan.FromSeconds(5)).Wait();
+        Task.Delay(TimeSpan.FromSeconds(1)).Wait();
         int pages = GetAmountOfJobs();
 
         int GetAmountOfJobs()
