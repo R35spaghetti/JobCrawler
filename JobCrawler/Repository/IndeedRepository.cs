@@ -56,6 +56,9 @@ public class IndeedRepository : IWebRepository
         var jobList = _driver.FindElements(By.CssSelector(".css-zu9cdh"))
             .SelectMany(x => x.FindElements(By.CssSelector(".css-5lfssm.eu4oa1w0")))
                 .Where(li=>li.Text != ""); //TODO: Get only job ads
+            .Where(li => li.Text != "")
+            .Where(li => !li.FindElements(By.CssSelector("div")).Any(div => div.GetAttribute("outerHTML").Contains("mosaic-afterFifthJobResult")))
+            .Where(li => !li.FindElements(By.CssSelector("div")).Any(diva => diva.GetAttribute("outerHTML").Contains("mosaic-afterTenthJobResult"))); 
 
         int jobCount = jobList.Count();
         for(int i = 1; i<= jobCount; i++)
