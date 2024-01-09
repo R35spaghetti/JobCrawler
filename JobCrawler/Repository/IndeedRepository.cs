@@ -53,11 +53,17 @@ public class IndeedRepository : IWebRepository
     public List<string> IterateThroughJobAds(List<string> keywords, string path, int pages, List<string> negativeKeywords)
     {
         List<string> jobs = new List<string>();
-        var jobList = _driver.FindElements(By.CssSelector(".css-zu9cdh"))
-            .SelectMany(x => x.FindElements(By.CssSelector(".css-5lfssm.eu4oa1w0")))
+        var jobList = _driver.FindElements(By.CssSelector(".css-5lfssm.eu4oa1w0 > div"))
             .Where(li => li.Text != "")
-            .Where(li => !li.FindElements(By.CssSelector("div")).Any(div => div.GetAttribute("outerHTML").Contains("mosaic-afterFifthJobResult")))
-            .Where(li => !li.FindElements(By.CssSelector("div")).Any(diva => diva.GetAttribute("outerHTML").Contains("mosaic-afterTenthJobResult"))); 
+            .Where(li => li.FindElements(By.CssSelector("div")).Any())
+            .Where(li =>
+            {
+                var firstDiv = li.FindElements(By.CssSelector("div")).FirstOrDefault();
+                return firstDiv != null &&
+                       !firstDiv.GetAttribute("id").Equals("mosaic-afterFifthJobResult") &&
+                       !firstDiv.GetAttribute("id").Equals("mosaic-afterTenthJobResult");
+            });
+
 
         int jobCount = jobList.Count();
         for(int i = 1; i<= jobCount; i++)
