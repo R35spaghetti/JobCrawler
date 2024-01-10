@@ -67,15 +67,17 @@ public class IndeedRepository : IWebRepository
 
         int jobCount = jobList.Count();
         for(int i = 1; i<= jobCount; i++)
+        var theJobList = _driver.FindElements(By.CssSelector(
+            "li.css-5lfssm:nth-child(n) > div:not(:has(#mosaic-afterFifthJobResult)):not(:has(#mosaic-afterTenthJobResult)) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1) > div:nth-child(1) > h2:nth-child(1) > a:nth-child(1)"));
+        
+        foreach (var link in theJobList)
         {
-            By locator = By.CssSelector($"li.css-5lfssm:nth-child({i})"); //TODO: Error at i
-            var clickJobAd = new ClickElementWrapper(_driver, locator);
-            clickJobAd.Click();
-            //AcquireInterestingJobs
+            ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].scrollIntoView(true);", link);
+            link.Click();
         }
         GoToNextJobPage();
-        
-            return jobs;
+
+        return jobs;
     }
 
     private void GoToNextJobPage()
