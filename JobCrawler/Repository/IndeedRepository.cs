@@ -53,20 +53,6 @@ public class IndeedRepository : IWebRepository
     public List<string> IterateThroughJobAds(List<string> keywords, string path, int pages, List<string> negativeKeywords)
     {
         List<string> jobs = new List<string>();
-        var jobList = _driver.FindElements(By.CssSelector(".css-5lfssm.eu4oa1w0 > div"))
-            .Where(li => li.Text != "")
-            .Where(li => li.FindElements(By.CssSelector("div")).Any())
-            .Where(li =>
-            {
-                var firstDiv = li.FindElements(By.CssSelector("div")).FirstOrDefault();
-                return firstDiv != null &&
-                       !firstDiv.GetAttribute("id").Equals("mosaic-afterFifthJobResult") &&
-                       !firstDiv.GetAttribute("id").Equals("mosaic-afterTenthJobResult");
-            });
-
-
-        int jobCount = jobList.Count();
-        for(int i = 1; i<= jobCount; i++)
         var theJobList = _driver.FindElements(By.CssSelector(
             "li.css-5lfssm:nth-child(n) > div:not(:has(#mosaic-afterFifthJobResult)):not(:has(#mosaic-afterTenthJobResult)) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1) > div:nth-child(1) > h2:nth-child(1) > a:nth-child(1)"));
         
