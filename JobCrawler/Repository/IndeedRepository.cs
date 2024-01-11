@@ -1,4 +1,3 @@
-using System.Collections.ObjectModel;
 using JobCrawler.Features;
 using JobCrawler.Repository.Contract;
 using OpenQA.Selenium;
@@ -53,14 +52,18 @@ public class IndeedRepository : IWebRepository
     public List<string> IterateThroughJobAds(List<string> keywords, string path, int pages, List<string> negativeKeywords)
     {
         List<string> jobs = new List<string>();
-        var theJobList = _driver.FindElements(By.CssSelector(
+
+
+        var jobList = _driver.FindElements(By.CssSelector(
             "li.css-5lfssm:nth-child(n) > div:not(:has(#mosaic-afterFifthJobResult)):not(:has(#mosaic-afterTenthJobResult)) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1) > div:nth-child(1) > h2:nth-child(1) > a:nth-child(1)"));
-        
-        foreach (var link in theJobList)
+        foreach (var job in jobList)
         {
-            ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].scrollIntoView(true);", link);
-            link.Click();
+            By locator = By.CssSelector(
+                $"li.css-5lfssm:nth-child(n) > div:not(:has(#mosaic-afterFifthJobResult)):not(:has(#mosaic-afterTenthJobResult)) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1) > div:nth-child(1) > h2:nth-child(1) > a:nth-child(1)");
+            var clickJobAd = new ClickElementWrapper(_driver, locator, job);
+            clickJobAd.Click();
         }
+
         GoToNextJobPage();
 
         return jobs;
