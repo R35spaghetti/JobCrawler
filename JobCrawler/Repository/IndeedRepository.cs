@@ -62,6 +62,11 @@ public class IndeedRepository : IWebRepository
                 $"li.css-5lfssm:nth-child(n) > div:not(:has(#mosaic-afterFifthJobResult)):not(:has(#mosaic-afterTenthJobResult)) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1) > div:nth-child(1) > h2:nth-child(1) > a:nth-child(1)");
             var clickJobAd = new ClickElementWrapper(_driver, locator, job);
             clickJobAd.Click();
+          var result =AcquireInterestingJobs(keywords, path, negativeKeywords);
+          if (result.First() != "")
+          {
+              jobs.AddRange(result);
+          }
         }
 
         GoToNextJobPage();
@@ -78,7 +83,11 @@ public class IndeedRepository : IWebRepository
 
     public List<string> AcquireInterestingJobs(List<string> keywords, string path, List<string> negativeKeywords)
     {
-        throw new NotImplementedException();
+        IList<IWebElement> jobAd = _driver.FindElements(By.CssSelector("div.jobsearch-JobComponent-description:nth-child(2)"));
+        List<string> jobAdInfo = jobAd.Select(element => element.GetAttribute("innerHTML")).ToList();
+        
+        string jobs = "";
+        return new List<string> { jobs };
     }
 
     public void FolderStructureForAds(string jobAdInfo, string path)
