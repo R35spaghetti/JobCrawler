@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using JobCrawler.Features;
 using JobCrawler.Repository.Contract;
 using OpenQA.Selenium;
@@ -86,7 +87,7 @@ public class IndeedRepository : IWebRepository
         IList<IWebElement> jobAd = _driver.FindElements(By.CssSelector("div.jobsearch-JobComponent-description:nth-child(2)"));
         List<string> jobAdInfo = jobAd.Select(element => element.GetAttribute("innerHTML")).ToList();
         
-        string jobs = "";
+        string jobs = FilterJobAd(jobAdInfo.First(), keywords, path, negativeKeywords);
         return new List<string> { jobs };
     }
 
