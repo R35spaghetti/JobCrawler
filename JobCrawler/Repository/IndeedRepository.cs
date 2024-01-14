@@ -21,16 +21,12 @@ public class IndeedRepository : IWebRepository
     {
         Task.Delay(TimeSpan.FromSeconds(1)).Wait();
         int pages = GetAmountOfJobs();
-
         int GetAmountOfJobs()
         {
-            string amount = _driver.FindElement(By.CssSelector(".jobsearch-JobCountAndSortPane-jobCount > span:nth-child(1)")).Text;
-            var replacements = new Dictionary<string, string>{{"jobb", ""},{",",""}};
-            foreach (var strAmount in replacements)
-            {
-                amount = amount.Replace(strAmount.Key, strAmount.Value);
-            }
-            return Convert.ToInt32(amount);
+            var jobList = _driver.FindElements(By.CssSelector(
+                "li.css-5lfssm:nth-child(n) > div:not(:has(#mosaic-afterFifthJobResult)):not(:has(#mosaic-afterTenthJobResult)) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1) > div:nth-child(1) > h2:nth-child(1) > a:nth-child(1)"));
+            int amount = jobList.Count();
+            return amount;
         }
 
         List<string> jobs = IterateThroughJobAds(keywords, path, pages, negativeKeywords);
