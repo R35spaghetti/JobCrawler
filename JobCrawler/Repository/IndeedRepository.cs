@@ -84,6 +84,7 @@ public class IndeedRepository : IWebRepository
 
     public List<string> AcquireInterestingJobs(List<string> keywords, string path, List<string> negativeKeywords)
     {
+        Task.Delay(TimeSpan.FromSeconds(3)).Wait();
         IList<IWebElement> jobAd = _driver.FindElements(By.CssSelector("div.jobsearch-JobComponent-description:nth-child(2)"));
         List<string> jobAdInfo = jobAd.Select(element => element.GetAttribute("innerHTML")).ToList();
         
