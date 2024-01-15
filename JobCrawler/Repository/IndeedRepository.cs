@@ -90,6 +90,7 @@ public class IndeedRepository : IWebRepository
     }
 
     private string FilterJobAd(string jobAdInfo, List<string> keywords, string path, List<string> negativeKeywords)
+    public string FilterJobAd(string jobAdInfo, List<string> keywords, string path, List<string> negativeKeywords)
     {
         /*
          * positive lookbehind with a positive lookahead,

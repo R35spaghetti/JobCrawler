@@ -12,6 +12,8 @@ public interface IWebRepository
 
      List<string> AcquireInterestingJobs(List<string> keywords, string path, List<string> negativeKeywords);
 
+     string FilterJobAd(string jobAdInfo, List<string> keywords, string path, List<string> negativeKeywords);
+     
      void FolderStructureForAds(string jobAdInfo, string path);
 
 }

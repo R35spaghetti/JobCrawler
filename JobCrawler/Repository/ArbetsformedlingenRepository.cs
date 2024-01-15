@@ -121,7 +121,7 @@ public class ArbetsformedlingenRepository : IWebRepository
         return new List<string> { jobs };
     }
 
-    private string FilterJobAd(string jobAdInfo, List<string> keywords, string path, List<string> negativeKeywords)
+    public string FilterJobAd(string jobAdInfo, List<string> keywords, string path, List<string> negativeKeywords)
     {
         /*
          * positive lookbehind with a positive lookahead,
