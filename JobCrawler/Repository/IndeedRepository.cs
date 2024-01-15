@@ -88,8 +88,7 @@ public class IndeedRepository : IWebRepository
         string jobs = FilterJobAd(jobAdInfo.First(), keywords, path, negativeKeywords);
         return new List<string> { jobs };
     }
-
-    private string FilterJobAd(string jobAdInfo, List<string> keywords, string path, List<string> negativeKeywords)
+   
     public string FilterJobAd(string jobAdInfo, List<string> keywords, string path, List<string> negativeKeywords)
     {
         /*
