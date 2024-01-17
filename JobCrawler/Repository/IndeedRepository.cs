@@ -23,10 +23,10 @@ public class IndeedRepository : IWebRepository
         int pages = GetAmountOfJobs();
         int GetAmountOfJobs()
         {
-            var jobList = _driver.FindElements(By.CssSelector(
-                "li.css-5lfssm:nth-child(n) > div:not(:has(#mosaic-afterFifthJobResult)):not(:has(#mosaic-afterTenthJobResult)) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1) > div:nth-child(1) > h2:nth-child(1) > a:nth-child(1)"));
-            int amount = jobList.Count();
-            return amount;
+            var jobs = _driver.FindElement(By.CssSelector(".jobsearch-JobCountAndSortPane-jobCount > span:nth-child(1)")).Text;
+            MatchCollection matches = Regex.Matches(jobs, @"\d+");
+            jobs = string.Join("", matches.Select(m => m.Value));
+            return Convert.ToInt32(jobs);
         }
 
         List<string> jobs = IterateThroughJobAds(keywords, path, pages, negativeKeywords);
