@@ -49,7 +49,7 @@ public class IndeedRepository : IWebRepository
     public List<string> IterateThroughJobAds(List<string> keywords, string path, int pages, List<string> negativeKeywords)
     {
         List<string> jobs = new List<string>();
-        for (int i = 1; i < pages; i++)
+        for (int i = 1; i <= pages; i++)
         {
             
             var jobList = _driver.FindElements(By.CssSelector(
@@ -65,8 +65,13 @@ public class IndeedRepository : IWebRepository
                 {
                     jobs.AddRange(result);
                 }
+
+                pages--;
             }
-            GoToNextJobPage();
+            if (pages != 0 && pages > 0)
+            {
+                GoToNextJobPage();
+            }
         }
 
         return jobs;
