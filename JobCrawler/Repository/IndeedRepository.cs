@@ -158,4 +158,16 @@ public class IndeedRepository : IWebRepository
         Directory.CreateDirectory(folderPath);
         File.WriteAllText(folderPath + $"/{documentName}.html", jobAdInfo);    
     }
+    private string GetHeadFolderName()
+    {
+        IWebElement HeadFolderName = _driver.FindElement(By.CssSelector(".css-1ikmi61 > div:nth-child(1)"));
+        if (HeadFolderName.Text == "")
+        {
+            return "Unknown";
+        }
+
+        return HeadFolderName.Text;
+    }
+    
+
 }
