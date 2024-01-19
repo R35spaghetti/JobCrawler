@@ -113,7 +113,7 @@ public class IndeedRepository : IWebRepository
             else if (Regex.IsMatch(jobAdInfo.ToUpper(),
                          $@"(?<=^|[\s\p{{P}}]){escapedStrPos.ToUpper()}(?=[\s\p{{P}}]|$)"))
             {
-                FolderStructureForAds(jobAdInfo, path);
+               FolderStructureForAds(jobAdInfo, path);
                 return jobAdInfo;
             }
         }
@@ -139,7 +139,7 @@ public class IndeedRepository : IWebRepository
 
             if (desirable)
             {
-                FolderStructureForAds(jobAdInfo, path);
+              FolderStructureForAds(jobAdInfo, path);
                 return jobAdInfo;
             }
         }
@@ -149,6 +149,14 @@ public class IndeedRepository : IWebRepository
 
     public void FolderStructureForAds(string jobAdInfo, string path)
     {
-        throw new NotImplementedException();
+        var title = _driver.FindElement(By.CssSelector(".jobsearch-JobInfoHeader-title > span:nth-child(1)"));
+        jobAdInfo += $"<a href='{_driver.Url}'>Go to job ad</a>";
+        string documentName = title.Text;
+        string headFolderName = GetHeadFolderName();
+        string subFolderName = GetSubFolderName();
+        string folderPath = $"{path}/{headFolderName}/{subFolderName}";
+
+        Directory.CreateDirectory(folderPath);
+        File.WriteAllText(folderPath + $"/{documentName}.html", jobAdInfo);    
     }
 }
