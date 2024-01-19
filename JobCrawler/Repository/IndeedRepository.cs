@@ -153,8 +153,7 @@ public class IndeedRepository : IWebRepository
         jobAdInfo += $"<a href='{_driver.Url}'>Go to job ad</a>";
         string documentName = title.Text;
         string headFolderName = GetHeadFolderName();
-        string subFolderName = GetSubFolderName();
-        string folderPath = $"{path}/{headFolderName}/{subFolderName}";
+        string folderPath = $"{path}/{headFolderName}/"; //No proper dates on indeed, yet
 
         Directory.CreateDirectory(folderPath);
         File.WriteAllText(folderPath + $"/{documentName}.html", jobAdInfo);    
