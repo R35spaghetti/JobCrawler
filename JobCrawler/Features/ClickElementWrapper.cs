@@ -13,7 +13,8 @@ public class ClickElementWrapper
         this.driver = driver;
         this.locator = locator;
         this.element = driver.FindElement(locator);
-    }  
+    }
+
     public ClickElementWrapper(IWebDriver driver, By locator, IWebElement element)
     {
         this.driver = driver;
