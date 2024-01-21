@@ -19,7 +19,7 @@ public class IndeedRepository : IWebRepository
 
     public List<string> JobsOfInterest(List<string> keywords, string path, List<string> negativeKeywords)
     {
-        Task.Delay(TimeSpan.FromSeconds(1)).Wait();
+        Task.Delay(TimeSpan.FromSeconds(2)).Wait();
         int pages = GetAmountOfJobs();
         int GetAmountOfJobs()
         {
@@ -35,7 +35,7 @@ public class IndeedRepository : IWebRepository
 
     public void FieldInput(params string[] textInput)
     {
-        Task.Delay(TimeSpan.FromSeconds(2)).Wait();
+        Task.Delay(TimeSpan.FromSeconds(1)).Wait();
         Actions action = new Actions(_driver);
         IWebElement what = _driver.FindElement(By.Id("text-input-what"));
         IWebElement where = _driver.FindElement(By.Id("text-input-where"));
@@ -86,7 +86,7 @@ public class IndeedRepository : IWebRepository
 
     public List<string> AcquireInterestingJobs(List<string> keywords, string path, List<string> negativeKeywords)
     {
-        Task.Delay(TimeSpan.FromSeconds(3)).Wait();
+        Task.Delay(TimeSpan.FromSeconds(2)).Wait();
         IList<IWebElement> jobAd = _driver.FindElements(By.CssSelector("div.jobsearch-JobComponent-description:nth-child(2)"));
         List<string> jobAdInfo = jobAd.Select(element => element.GetAttribute("innerHTML")).ToList();
         
