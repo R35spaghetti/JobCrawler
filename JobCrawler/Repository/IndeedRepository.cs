@@ -79,8 +79,8 @@ public class IndeedRepository : IWebRepository
 
     private void GoToNextJobPage()
     {
-        By locatorNext = By.CssSelector(".css-akkh0a");
-        var clickNext = new ClickElementWrapper(_driver, locatorNext);
+        By locatorNextPageArrowButton = By.CssSelector("li.css-227srf:last-child");
+        var clickNext = new ClickElementWrapper(_driver, locatorNextPageArrowButton);
         clickNext.Click();
     }
 
