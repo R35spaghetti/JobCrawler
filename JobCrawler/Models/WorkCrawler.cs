@@ -1,6 +1,6 @@
 namespace JobCrawler.Models;
 
-
+/*Will perhaps be used with a database in the future*/
 public class WorkCrawler : IWorkCrawler
 {
     public string Title { get; set; }
