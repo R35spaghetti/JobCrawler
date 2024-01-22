@@ -15,9 +15,6 @@ public class ArbetsformedlingenRepository : IWebRepository
     public void NavigateTo(string url)
     {
         _driver.Navigate().GoToUrl(url);
-        Actions action = new Actions(_driver);
-        IWebElement button = _driver.FindElement(By.LinkText("Sök jobb i Platsbanken"));
-        action.Click(button).Build().Perform();
     }
 
     public List<string> JobsOfInterest(List<string> keywords, string path, List<string> negativeKeywords)
