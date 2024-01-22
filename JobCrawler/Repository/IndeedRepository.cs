@@ -19,6 +19,7 @@ public class IndeedRepository : IWebRepository
 
     public List<string> JobsOfInterest(List<string> keywords, string path, List<string> negativeKeywords)
     {
+        ReplaceNullWithEmpty(negativeKeywords);
         Task.Delay(TimeSpan.FromSeconds(2)).Wait();
         int pages = GetAmountOfJobs();
         int GetAmountOfJobs()
@@ -31,6 +32,16 @@ public class IndeedRepository : IWebRepository
 
         List<string> jobs = IterateThroughJobAds(keywords, path, pages, negativeKeywords);
         return jobs;
+    }
+    private void ReplaceNullWithEmpty(List<string> list)
+    {
+        for (int i = 0; i < list.Count; i++)
+        {
+            if (list[i] == null)
+            {
+                list[i] = "";
+            }
+        }
     }
 
     public void FieldInput(params string[] textInput)
