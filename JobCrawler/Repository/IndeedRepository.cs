@@ -2,18 +2,27 @@ using System.Text.RegularExpressions;
 using JobCrawler.Features;
 using JobCrawler.Repository.Contract;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Firefox;
+using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Interactions;
 
 namespace JobCrawler.Repository;
 
 public class IndeedRepository : IWebRepository
 {
-    private readonly IWebDriver _driver = new FirefoxDriver();
-
-
-    public void NavigateTo(string url)
+    private readonly IWebDriver _driver;
+    public IndeedRepository()
     {
+        var options = new ChromeOptions();
+        options.AddArgument("--headless");
+        options.AddArgument("--disable-blink-features");
+        options.AddArgument("--disable-blink-features=AutomationControlled");
+        options.AddArgument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36");
+        _driver = new ChromeDriver(options);
+    }
+    public void NavigateTo(string url) 
+    {   //flags as undefined
+        var jsScript = "Object.defineProperty(navigator, 'webdriver', {get: () => undefined})";
+        ((IJavaScriptExecutor)_driver).ExecuteScript(jsScript);
         _driver.Navigate().GoToUrl(url);
     }
 
@@ -104,7 +113,6 @@ public class IndeedRepository : IWebRepository
         string jobs = FilterJobAd(jobAdInfo.First(), keywords, path, negativeKeywords);
         return new List<string> { jobs };
     }
-   
     public string FilterJobAd(string jobAdInfo, List<string> keywords, string path, List<string> negativeKeywords)
     {
         /*
