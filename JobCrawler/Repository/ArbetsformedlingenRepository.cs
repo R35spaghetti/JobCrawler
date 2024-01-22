@@ -9,9 +9,14 @@ namespace JobCrawler.Repository;
 
 public class ArbetsformedlingenRepository : IWebRepository
 {
-    private readonly IWebDriver _driver = new FirefoxDriver();
+    private readonly IWebDriver _driver;
 
-
+    public ArbetsformedlingenRepository()
+    {
+        var options = new FirefoxOptions();
+        options.AddArgument("--headless");
+        _driver = new FirefoxDriver(options);
+    }
     public void NavigateTo(string url)
     {
         _driver.Navigate().GoToUrl(url);
