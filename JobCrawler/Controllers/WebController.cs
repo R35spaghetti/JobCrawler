@@ -17,7 +17,7 @@ public class WebController : ControllerBase
     public Task<ActionResult> StartCrawlAF(string input,[FromQuery]  List<string> keywords, string path,[FromQuery] List<string> negativeKeywords)
     {
         var webRepositoryResolver = _webRepositoryResolver("A");
-        webRepositoryResolver.NavigateTo("https://arbetsformedlingen.se/");
+        webRepositoryResolver.NavigateTo("https://arbetsformedlingen.se/platsbanken/");
 
         webRepositoryResolver.FieldInput(input);
         /*Will perhaps be used with a database in the future*/
