@@ -143,7 +143,7 @@ public class ArbetsformedlingenRepository : IWebRepository
             else if (Regex.IsMatch(jobAdInfo.ToUpper(),
                          $@"(?<=^|[\s\p{{P}}]){escapedStrPos.ToUpper()}(?=[\s\p{{P}}]|$)"))
             {
-                FolderStructureForAds(jobAdInfo, path);
+                FolderStructure.FolderStructureForAdsWithDates(jobAdInfo, path, _driver, "#pb-company-name", ".extra-info-section > h2:nth-child(2)", "#pb-job-location");
                 return jobAdInfo;
             }
         }
@@ -169,65 +169,11 @@ public class ArbetsformedlingenRepository : IWebRepository
 
             if (desirable)
             {
-                FolderStructureForAds(jobAdInfo, path);
+                FolderStructure.FolderStructureForAdsWithDates(jobAdInfo, path, _driver, "#pb-company-name", ".extra-info-section > h2:nth-child(2)", "#pb-job-location");
                 return jobAdInfo;
             }
         }
 
         return string.Empty;
-    }
-
-    public void FolderStructureForAds(string jobAdInfo, string path)
-    {
-        var title = _driver.FindElement(By.CssSelector("#pb-company-name"));
-        jobAdInfo += $"<a href='{_driver.Url}'>Go to job ad</a>";
-        string documentName = title.Text;
-        string headFolderName = GetHeadFolderName();
-        string subFolderName = GetSubFolderName();
-        string folderPath = $"{path}/{headFolderName}/{subFolderName}";
-
-        Directory.CreateDirectory(folderPath);
-        File.WriteAllText(folderPath + $"/{documentName}.html", jobAdInfo);
-    }
-
-    private string GetSubFolderName()
-    {
-        IWebElement subFolderName = _driver.FindElement(By.CssSelector("#pb-job-location"));
-        if (subFolderName.Text == "")
-        {
-            return "Unknown";
-        }
-        else
-        {
-            var newSubFolderName = subFolderName.Text.Replace("Kommun: ", "").Trim();
-            return newSubFolderName;
-        }
-    }
-
-    private string GetHeadFolderName()
-    {
-        IWebElement folderTitle = _driver.FindElement(By.CssSelector(".extra-info-section > h2:nth-child(2)"));
-        string dateTitle = GetProperTitle(folderTitle.Text);
-
-        if (dateTitle == "")
-        {
-            return "Unknown";
-        }
-
-        return dateTitle;
-    }
-
-    private string GetProperTitle(string folderTitle)
-    {
-        string[] months =
-        {
-            "januari", "februari", "mars", "april", "maj", "juni", "juli", "augusti", "september", "oktober",
-            "november", "december"
-        };
-        string monthsPattern = "(?:" + string.Join("|", months) + ")";
-        string datePattern = $@"\s*\d{{1,2}}\s*{monthsPattern}\s*\d{{4}}";
-        Match date = Regex.Match(folderTitle, datePattern);
-
-        return date.Value;
     }
 }

@@ -120,7 +120,7 @@ public class IndeedRepository : IWebRepository
             else if (Regex.IsMatch(jobAdInfo.ToUpper(),
                          $@"(?<=^|[\s\p{{P}}]){escapedStrPos.ToUpper()}(?=[\s\p{{P}}]|$)"))
             {
-               FolderStructureForAds(jobAdInfo, path);
+                FolderStructure.FolderStructureForAdsWithoutDates(jobAdInfo, path, _driver, ".jobsearch-JobInfoHeader-title > span:nth-child(1)", ".css-1ikmi61 > div:nth-child(1)");
                 return jobAdInfo;
             }
         }
@@ -146,35 +146,12 @@ public class IndeedRepository : IWebRepository
 
             if (desirable)
             {
-              FolderStructureForAds(jobAdInfo, path);
+                FolderStructure.FolderStructureForAdsWithoutDates(jobAdInfo, path, _driver, ".jobsearch-JobInfoHeader-title > span:nth-child(1)", ".css-1ikmi61 > div:nth-child(1)");
                 return jobAdInfo;
             }
         }
 
         return string.Empty;
     }
-
-    public void FolderStructureForAds(string jobAdInfo, string path)
-    {
-        var title = _driver.FindElement(By.CssSelector(".jobsearch-JobInfoHeader-title > span:nth-child(1)"));
-        jobAdInfo += $"<a href='{_driver.Url}'>Go to job ad</a>";
-        string documentName = title.Text;
-        string headFolderName = GetHeadFolderName();
-        string folderPath = $"{path}/{headFolderName}/"; //No proper dates on indeed, yet
-
-        Directory.CreateDirectory(folderPath);
-        File.WriteAllText(folderPath + $"/{documentName}.html", jobAdInfo);    
-    }
-    private string GetHeadFolderName()
-    {
-        IWebElement HeadFolderName = _driver.FindElement(By.CssSelector(".css-1ikmi61 > div:nth-child(1)"));
-        if (HeadFolderName.Text == "")
-        {
-            return "Unknown";
-        }
-
-        return HeadFolderName.Text;
-    }
-    
 
 }
