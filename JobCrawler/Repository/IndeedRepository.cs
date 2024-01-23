@@ -28,7 +28,7 @@ public class IndeedRepository : IWebRepository
 
     public List<string> JobsOfInterest(List<string> keywords, string path, List<string> negativeKeywords)
     {
-        ReplaceNullWithEmpty(negativeKeywords);
+        ListUtils.ReplaceNullWithEmpty(negativeKeywords);
         Task.Delay(TimeSpan.FromSeconds(2)).Wait();
         int pages = GetAmountOfJobs();
         int GetAmountOfJobs()
@@ -42,17 +42,6 @@ public class IndeedRepository : IWebRepository
         List<string> jobs = IterateThroughJobAds(keywords, path, pages, negativeKeywords);
         return jobs;
     }
-    private void ReplaceNullWithEmpty(List<string> list)
-    {
-        for (int i = 0; i < list.Count; i++)
-        {
-            if (list[i] == null)
-            {
-                list[i] = "";
-            }
-        }
-    }
-
     public void FieldInput(params string[] textInput)
     {
         Task.Delay(TimeSpan.FromSeconds(1)).Wait();
@@ -71,7 +60,6 @@ public class IndeedRepository : IWebRepository
         List<string> jobs = new List<string>();
         for (int i = 1; i <= pages; i++)
         {
-            
             var jobList = _driver.FindElements(By.CssSelector(
                 "li.css-5lfssm:nth-child(n) > div:not(:has(#mosaic-afterFifthJobResult)):not(:has(#mosaic-afterTenthJobResult)) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1) > div:nth-child(1) > h2:nth-child(1) > a:nth-child(1)"));
             foreach (var job in jobList)

@@ -24,7 +24,7 @@ public class ArbetsformedlingenRepository : IWebRepository
 
     public List<string> JobsOfInterest(List<string> keywords, string path, List<string> negativeKeywords)
     {
-        ReplaceNullWithEmpty(negativeKeywords);
+        ListUtils.ReplaceNullWithEmpty(negativeKeywords);
         Task.Delay(TimeSpan.FromSeconds(3)).Wait();
         ShowMoreJobAds();
         Task.Delay(TimeSpan.FromSeconds(3)).Wait();
@@ -32,16 +32,6 @@ public class ArbetsformedlingenRepository : IWebRepository
         Task.Delay(TimeSpan.FromSeconds(3)).Wait();
         List<string> jobs = IterateThroughJobAds(keywords, path, pages, negativeKeywords);
         return jobs;
-    }
-    private void ReplaceNullWithEmpty(List<string> list)
-    {
-        for (int i = 0; i < list.Count; i++)
-        {
-            if (list[i] == null)
-            {
-                list[i] = "";
-            }
-        }
     }
 
     private void ShowMoreJobAds()
