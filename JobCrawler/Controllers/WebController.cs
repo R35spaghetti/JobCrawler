@@ -12,7 +12,7 @@ public class WebController : ControllerBase
     {
         _webRepositoryResolver = webRepositoryResolver;
     }
-
+    //Automatic crawl from latest to oldest
     [HttpGet("StartCrawlingArbetsförmedlingen")]
     public Task<ActionResult> StartCrawlAF(string input,[FromQuery]  List<string> keywords, string path,[FromQuery] List<string> negativeKeywords)
     {
@@ -20,12 +20,12 @@ public class WebController : ControllerBase
         webRepositoryResolver.NavigateTo("https://arbetsformedlingen.se/");
 
         webRepositoryResolver.FieldInput(input);
-
+        /*Will perhaps be used with a database in the future*/
         webRepositoryResolver.JobsOfInterest(keywords, path,negativeKeywords);
         
         return Task.FromResult<ActionResult>(Ok());
     }
-
+    //Automatic crawl from latest to oldest
     [HttpGet("StartCrawlingIndeed")]
     public Task<ActionResult> StartCrawlIndeed(string what, string where, [FromQuery]  List<string> keywords,string path, [FromQuery] List<string> negativeKeywords)
     {
