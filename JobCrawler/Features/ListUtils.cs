@@ -15,7 +15,9 @@ public static class ListUtils
             }
         }
     }
-    public static string FilterJobAd(string jobAdInfo, List<string> keywords, string path, List<string> negativeKeywords, IWebDriver driver)
+
+    public static string FilterJobAd(string jobAdInfo, List<string> keywords, string path,
+        List<string> negativeKeywords, IWebDriver driver)
     {
         /*
          * positive lookbehind with a positive lookahead,
@@ -34,7 +36,8 @@ public static class ListUtils
             else if (Regex.IsMatch(jobAdInfo.ToUpper(),
                          $@"(?<=^|[\s\p{{P}}]){escapedStrPos.ToUpper()}(?=[\s\p{{P}}]|$)"))
             {
-                FolderStructure.FolderStructureForAdsWithDates(jobAdInfo, path, driver, "#pb-company-name", ".extra-info-section > h2:nth-child(2)", "#pb-job-location");
+                FolderStructure.FolderStructureForAdsWithDates(jobAdInfo, path, driver, "#pb-company-name",
+                    ".extra-info-section > h2:nth-child(2)", "#pb-job-location");
                 return jobAdInfo;
             }
         }
@@ -60,7 +63,8 @@ public static class ListUtils
 
             if (desirable)
             {
-                FolderStructure.FolderStructureForAdsWithDates(jobAdInfo, path, driver, "#pb-company-name", ".extra-info-section > h2:nth-child(2)", "#pb-job-location");
+                FolderStructure.FolderStructureForAdsWithDates(jobAdInfo, path, driver, "#pb-company-name",
+                    ".extra-info-section > h2:nth-child(2)", "#pb-job-location");
                 return jobAdInfo;
             }
         }

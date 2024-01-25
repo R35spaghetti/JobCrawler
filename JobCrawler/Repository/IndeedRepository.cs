@@ -10,17 +10,21 @@ namespace JobCrawler.Repository;
 public class IndeedRepository : IWebRepository
 {
     private readonly IWebDriver _driver;
+
     public IndeedRepository()
     {
         var options = new ChromeOptions();
         options.AddArgument("--headless");
         options.AddArgument("--disable-blink-features");
         options.AddArgument("--disable-blink-features=AutomationControlled");
-        options.AddArgument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36");
+        options.AddArgument(
+            "user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36");
         _driver = new ChromeDriver(options);
     }
-    public void NavigateTo(string url) 
-    {   //flags as undefined
+
+    public void NavigateTo(string url)
+    {
+        //flags as undefined
         var jsScript = "Object.defineProperty(navigator, 'webdriver', {get: () => undefined})";
         ((IJavaScriptExecutor)_driver).ExecuteScript(jsScript);
         _driver.Navigate().GoToUrl(url);
@@ -31,9 +35,11 @@ public class IndeedRepository : IWebRepository
         ListUtils.ReplaceNullWithEmpty(negativeKeywords);
         Task.Delay(TimeSpan.FromSeconds(2)).Wait();
         int pages = GetAmountOfJobs();
+
         int GetAmountOfJobs()
         {
-            var jobs = _driver.FindElement(By.CssSelector(".jobsearch-JobCountAndSortPane-jobCount > span:nth-child(1)")).Text;
+            var jobs = _driver
+                .FindElement(By.CssSelector(".jobsearch-JobCountAndSortPane-jobCount > span:nth-child(1)")).Text;
             MatchCollection matches = Regex.Matches(jobs, @"\d+");
             jobs = string.Join("", matches.Select(m => m.Value));
             return Convert.ToInt32(jobs);
@@ -42,6 +48,7 @@ public class IndeedRepository : IWebRepository
         List<string> jobs = IterateThroughJobAds(keywords, path, pages, negativeKeywords);
         return jobs;
     }
+
     public void FieldInput(params string[] textInput)
     {
         Task.Delay(TimeSpan.FromSeconds(1)).Wait();
@@ -55,7 +62,8 @@ public class IndeedRepository : IWebRepository
         action.Click(search).Build().Perform();
     }
 
-    public List<string> IterateThroughJobAds(List<string> keywords, string path, int pages, List<string> negativeKeywords)
+    public List<string> IterateThroughJobAds(List<string> keywords, string path, int pages,
+        List<string> negativeKeywords)
     {
         List<string> jobs = new List<string>();
         for (int i = 1; i <= pages; i++)
@@ -76,6 +84,7 @@ public class IndeedRepository : IWebRepository
 
                 pages--;
             }
+
             if (pages != 0 && pages > 0)
             {
                 GoToNextJobPage();
@@ -95,11 +104,10 @@ public class IndeedRepository : IWebRepository
     public List<string> AcquireInterestingJobs(List<string> keywords, string path, List<string> negativeKeywords)
     {
         Task.Delay(TimeSpan.FromSeconds(2)).Wait();
-        IList<IWebElement> jobAd = _driver.FindElements(By.CssSelector("div.jobsearch-JobComponent-description:nth-child(2)"));
+        IList<IWebElement> jobAd =
+            _driver.FindElements(By.CssSelector("div.jobsearch-JobComponent-description:nth-child(2)"));
         List<string> jobAdInfo = jobAd.Select(element => element.GetAttribute("innerHTML")).ToList();
         string jobs = ListUtils.FilterJobAd(jobAdInfo.First(), keywords, path, negativeKeywords, _driver);
         return new List<string> { jobs };
     }
-    
-
 }

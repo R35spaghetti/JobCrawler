@@ -17,6 +17,7 @@ public class ArbetsformedlingenRepository : IWebRepository
         options.AddArgument("--headless");
         _driver = new FirefoxDriver(options);
     }
+
     public void NavigateTo(string url)
     {
         _driver.Navigate().GoToUrl(url);
@@ -119,7 +120,7 @@ public class ArbetsformedlingenRepository : IWebRepository
         Task.Delay(TimeSpan.FromSeconds(5)).Wait();
         IList<IWebElement> jobAd = _driver.FindElements(By.CssSelector("section.col-md-12"));
         List<string> jobAdInfo = jobAd.Select(element => element.GetAttribute("innerHTML")).ToList();
-        
+
         string jobs = ListUtils.FilterJobAd(jobAdInfo.First(), keywords, path, negativeKeywords, _driver);
         return new List<string> { jobs };
     }

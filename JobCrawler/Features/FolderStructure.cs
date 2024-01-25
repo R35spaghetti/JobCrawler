@@ -2,21 +2,23 @@ using System.Text.RegularExpressions;
 using OpenQA.Selenium;
 
 namespace JobCrawler.Features;
+
 public static class FolderStructure
 {
-    
-    public static void FolderStructureForAdsWithDates(string jobAdInfo, string path, IWebDriver driver, string titleName, string headName, string subfolderName)
+    public static void FolderStructureForAdsWithDates(string jobAdInfo, string path, IWebDriver driver,
+        string titleName, string headName, string subfolderName)
     {
         var title = driver.FindElement(By.CssSelector(titleName));
         jobAdInfo += $"<a href='{driver.Url}'>Go to job ad</a>";
         string documentName = title.Text;
-        string headFolderName = GetHeadFolderNameWithDates(driver,headName);
-        string subFolderName = GetSubFolderNameWithDates(driver,subfolderName);
+        string headFolderName = GetHeadFolderNameWithDates(driver, headName);
+        string subFolderName = GetSubFolderNameWithDates(driver, subfolderName);
         string folderPath = $"{path}/{headFolderName}/{subFolderName}";
 
         Directory.CreateDirectory(folderPath);
         File.WriteAllText(folderPath + $"/{documentName}.html", jobAdInfo);
     }
+
     private static string GetHeadFolderNameWithDates(IWebDriver driver, string headName)
     {
         IWebElement folderTitle = driver.FindElement(By.CssSelector(headName));
@@ -29,6 +31,7 @@ public static class FolderStructure
 
         return dateTitle;
     }
+
     private static string GetProperTitleWithDates(string folderTitle)
     {
         string[] months =
@@ -42,6 +45,7 @@ public static class FolderStructure
 
         return date.Value;
     }
+
     private static string GetSubFolderNameWithDates(IWebDriver driver, string subfolderName)
     {
         IWebElement subFolderName = driver.FindElement(By.CssSelector(subfolderName));
@@ -55,8 +59,9 @@ public static class FolderStructure
             return newSubFolderName;
         }
     }
-    
-    public static void FolderStructureForAdsWithoutDates(string jobAdInfo, string path, IWebDriver driver, string titleName, string headName)
+
+    public static void FolderStructureForAdsWithoutDates(string jobAdInfo, string path, IWebDriver driver,
+        string titleName, string headName)
     {
         var title = driver.FindElement(By.CssSelector(titleName));
         jobAdInfo += $"<a href='{driver.Url}'>Go to job ad</a>";
@@ -65,9 +70,9 @@ public static class FolderStructure
         string folderPath = $"{path}/{headFolderName}/"; //No proper dates on indeed, yet
 
         Directory.CreateDirectory(folderPath);
-        File.WriteAllText(folderPath + $"/{documentName}.html", jobAdInfo);  
+        File.WriteAllText(folderPath + $"/{documentName}.html", jobAdInfo);
     }
-    
+
     private static string GetHeadFolderNameWithoutDates(IWebDriver driver, string headName)
     {
         IWebElement headFolderName = driver.FindElement(By.CssSelector(headName));
@@ -78,5 +83,4 @@ public static class FolderStructure
 
         return headFolderName.Text;
     }
-
 }
