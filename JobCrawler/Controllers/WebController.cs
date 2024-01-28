@@ -37,4 +37,6 @@ public class WebController : ControllerBase
         webRepository.JobsOfInterest(keywords, path,negativeKeywords);
         return Ok();
     }
+        return Ok();
+    }
 }
