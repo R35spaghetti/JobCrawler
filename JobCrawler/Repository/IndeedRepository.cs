@@ -86,19 +86,12 @@ public class IndeedRepository : IWebRepository
             }
 
             if (pages != 0 && pages > 0)
-            {
-                GoToNextJobPage();
+            {   
+                CrawlerUtils.GoToNextJobPage(_driver, "li.css-227srf:last-child");
             }
         }
 
         return jobs;
-    }
-
-    private void GoToNextJobPage()
-    {
-        By locatorNextPageArrowButton = By.CssSelector("li.css-227srf:last-child");
-        var clickNext = new ClickElementWrapper(_driver, locatorNextPageArrowButton);
-        clickNext.Click();
     }
 
     public List<string> AcquireInterestingJobs(List<string> keywords, string path, List<string> negativeKeywords)
