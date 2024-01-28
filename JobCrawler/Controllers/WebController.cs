@@ -14,7 +14,7 @@ public class WebController : ControllerBase
     }
     //Automatic crawl from latest to oldest
     [HttpGet("StartCrawlingArbetsförmedlingen")]
-    public Task<ActionResult> StartCrawlAF(string input,[FromQuery]  List<string> keywords, string path,[FromQuery] List<string> negativeKeywords)
+    public ActionResult StartCrawlAF(string input,[FromQuery]  List<string> keywords, string path,[FromQuery] List<string> negativeKeywords)
     {
         var webRepositoryResolver = _webRepositoryResolver("A");
         webRepositoryResolver.NavigateTo("https://arbetsformedlingen.se/platsbanken/");
@@ -23,17 +23,18 @@ public class WebController : ControllerBase
         /*Will perhaps be used with a database in the future*/
         webRepositoryResolver.JobsOfInterest(keywords, path,negativeKeywords);
         
-        return Task.FromResult<ActionResult>(Ok());
+        return Ok();
+
     }
     //Automatic crawl from latest to oldest
     [HttpGet("StartCrawlingIndeed")]
-    public Task<ActionResult> StartCrawlIndeed(string what, string where, [FromQuery]  List<string> keywords,string path, [FromQuery] List<string> negativeKeywords)
+    public ActionResult StartCrawlIndeed(string what, string where, [FromQuery]  List<string> keywords,string path, [FromQuery] List<string> negativeKeywords)
     {
         var webRepository = _webRepositoryResolver("B");
         webRepository.NavigateTo("https://se.indeed.com/");
         string[] inputs = new[] { what, where};
         webRepository.FieldInput(inputs);
         webRepository.JobsOfInterest(keywords, path,negativeKeywords);
-        return Task.FromResult<ActionResult>(Ok());
+        return Ok();
     }
 }
