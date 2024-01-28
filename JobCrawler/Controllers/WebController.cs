@@ -37,6 +37,19 @@ public class WebController : ControllerBase
         webRepository.JobsOfInterest(keywords, path,negativeKeywords);
         return Ok();
     }
+    [HttpGet("StartCrawlingIndeedAndAF")]
+    public ActionResult StartCrawlArbetsformedlingenAndIndeed(string job,[FromQuery]  List<string> keywords, string path,[FromQuery] List<string> negativeKeywords, string whereIndeed)
+    {
+        Thread afThread = new Thread(obj => StartCrawlAF(job, keywords, path, negativeKeywords));
+        Thread indeedThread = new Thread(obj => StartCrawlIndeed(job, whereIndeed, keywords, path, negativeKeywords));
+        
+        afThread.Start();
+        indeedThread.Start();
+
+        afThread.Join();
+        indeedThread.Join();
+        
+       
         return Ok();
     }
 }
