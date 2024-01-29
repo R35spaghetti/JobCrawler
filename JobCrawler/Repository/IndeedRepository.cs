@@ -13,6 +13,7 @@ public class IndeedRepository : IWebRepository
 
     public IndeedRepository()
     {
+        //Or rotate the IP if Cloudflare appears
         var options = new ChromeOptions();
         options.AddArgument("--headless");
         options.AddArgument("--disable-blink-features");
