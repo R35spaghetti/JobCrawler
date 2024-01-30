@@ -100,13 +100,14 @@ public class ArbetsformedlingenRepository : IWebRepository
 
                 _driver.Navigate().Back();
             }
-            CrawlerUtils.GoToNextJobPage(_driver, ".digi-button--icon-secondary > span:nth-child(1) > span:nth-child(1)");
+
+            CrawlerUtils.GoToNextJobPage(_driver,
+                ".digi-button--icon-secondary > span:nth-child(1) > span:nth-child(1)");
             Task.Delay(TimeSpan.FromSeconds(2)).Wait();
         }
 
         return jobs;
     }
-    
 
     public List<string> AcquireInterestingJobs(List<string> keywords, string path, List<string> negativeKeywords)
     {

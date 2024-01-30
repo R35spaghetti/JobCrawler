@@ -87,7 +87,7 @@ public class IndeedRepository : IWebRepository
             }
 
             if (pages != 0 && pages > 0)
-            {   
+            {
                 CrawlerUtils.GoToNextJobPage(_driver, "li.css-227srf:last-child");
             }
         }

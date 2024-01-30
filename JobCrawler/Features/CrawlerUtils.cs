@@ -10,5 +10,4 @@ public static class CrawlerUtils
         var clickNext = new ClickElementWrapper(driver, locatorNext);
         clickNext.Click();
     }
-
 }
