@@ -114,8 +114,8 @@ public class ArbetsformedlingenRepository : IWebRepository
         Task.Delay(TimeSpan.FromSeconds(5)).Wait();
         IList<IWebElement> jobAd = _driver.FindElements(By.CssSelector("section.col-md-12"));
         List<string> jobAdInfo = jobAd.Select(element => element.GetAttribute("innerHTML")).ToList();
-
-        string jobs = ListUtils.FilterJobAd(jobAdInfo.First(), keywords, path, negativeKeywords, _driver);
+        
+        string jobs = ListUtils.FilterJobAd(jobAdInfo.First(), keywords, path, negativeKeywords, _driver,"#pb-company-name",".extra-info-section > h2:nth-child(2)", "#pb-job-location" );
         return new List<string> { jobs };
     }
 }

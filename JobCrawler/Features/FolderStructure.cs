@@ -59,7 +59,6 @@ public static class FolderStructure
             return newSubFolderName;
         }
     }
-    //TODO: implement?
     public static void FolderStructureForAdsWithoutDates(string jobAdInfo, string path, IWebDriver driver,
         string titleName, string headName)
     {

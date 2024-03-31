@@ -101,7 +101,7 @@ public class IndeedRepository : IWebRepository
         IList<IWebElement> jobAd =
             _driver.FindElements(By.CssSelector("div.jobsearch-JobComponent-description:nth-child(2)"));
         List<string> jobAdInfo = jobAd.Select(element => element.GetAttribute("innerHTML")).ToList();
-        string jobs = ListUtils.FilterJobAd(jobAdInfo.First(), keywords, path, negativeKeywords, _driver);
+        string jobs = ListUtils.FilterJobAd(jobAdInfo.First(), keywords, path, negativeKeywords, _driver, ".jobsearch-JobInfoHeader-title > span:nth-child(1)", ".css-1z3nug > div:nth-child(1)");
         return new List<string> { jobs };
     }
 }
