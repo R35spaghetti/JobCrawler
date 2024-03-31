@@ -2,7 +2,7 @@ using System.Text.RegularExpressions;
 using JobCrawler.Features;
 using JobCrawler.Repository.Contract;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Interactions;
 
 namespace JobCrawler.Repository;
@@ -14,13 +14,12 @@ public class IndeedRepository : IWebRepository
     public IndeedRepository()
     {
         //Or rotate the IP if Cloudflare appears
-        var options = new ChromeOptions();
-        options.AddArgument("--headless");
+        var options = new FirefoxOptions();
         options.AddArgument("--disable-blink-features");
         options.AddArgument("--disable-blink-features=AutomationControlled");
         options.AddArgument(
             "user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36");
-        _driver = new ChromeDriver(options);
+        _driver = new FirefoxDriver(options);
     }
 
     public void NavigateTo(string url)
