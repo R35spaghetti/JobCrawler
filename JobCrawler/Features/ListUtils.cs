@@ -15,7 +15,7 @@ public static class ListUtils
             }
         }
     }
-
+//TODO edit so it includes indeed
     public static string FilterJobAd(string jobAdInfo, List<string> keywords, string path,
         List<string> negativeKeywords, IWebDriver driver)
     {
